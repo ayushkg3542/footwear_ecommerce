@@ -2,7 +2,7 @@
     <aside class="sidebar-wrapper">
         <div class="sidebar-header">
             <div class="logo-icon">
-                <img src="assets/images/logo-icon.png" class="logo-img" alt="">
+                <img src="{{url('public/admin/assets/images/logo-icon.png')}}" class="logo-img" alt="">
             </div>
             <div class="logo-name flex-grow-1">
                 <h5 class="mb-0">Metoxi</h5>
@@ -32,31 +32,20 @@
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class="material-icons-outlined">widgets</i>
                         </div>
-                        <div class="menu-title">Widgets</div>
+                        <div class="menu-title">Products</div>
                     </a>
                     <ul>
-                        <li><a href="widgets-data.html"><i class="material-icons-outlined">arrow_right</i>Data</a>
+                        <li><a href="{{route('category')}}"><i class="material-icons-outlined">arrow_right</i>Category</a>
                         </li>
-                        <li><a href="widgets-advance.html"><i class="material-icons-outlined">arrow_right</i>Advance</a>
+                        <li><a href="{{route('subcategory')}}"><i class="material-icons-outlined">arrow_right</i>Sub Category</a>
                         </li>
-                    </ul>
-                </li>
-                <li class="menu-label">UI Elements</li>
-                <li>
-                    <a href="javascript:;" class="has-arrow">
-                        <div class="parent-icon"><i class="material-icons-outlined">inventory_2</i>
-                        </div>
-                        <div class="menu-title">Cards</div>
-                    </a>
-                    <ul>
-                        <li><a href="component-cards-basic.html"><i
-                                    class="material-icons-outlined">arrow_right</i>Basic</a>
+                        <li><a href="{{route('brand')}}"><i class="material-icons-outlined">arrow_right</i>Manage Brand</a>
                         </li>
-                        <li><a href="component-cards-advance.html"><i
-                                    class="material-icons-outlined">arrow_right</i>Advance</a>
+                        <li><a href="{{route('color')}}"><i class="material-icons-outlined">arrow_right</i>Manage Color</a>
                         </li>
-                        <li><a href="component-cards-contact.html"><i
-                                    class="material-icons-outlined">arrow_right</i>Contacts</a>
+                        <li><a href="{{route('allProducts')}}"><i class="material-icons-outlined">arrow_right</i>All Products</a>
+                        </li>
+                        <li><a href="{{route('addProducts')}}"><i class="material-icons-outlined">arrow_right</i>Add Products</a>
                         </li>
                     </ul>
                 </li>
@@ -87,7 +76,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <!-- <li>
                     <a class="has-arrow" href="javascript:;">
                         <div class="parent-icon"><i class="material-icons-outlined">card_giftcard</i>
                         </div>
@@ -401,10 +390,9 @@
                         <div class="menu-title">Support</div>
                     </a>
                 </li>
-            </ul>
-            <!--end navigation-->
+            </ul> -->
         </div>
-        <div class="sidebar-bottom gap-4">
+        <!-- <div class="sidebar-bottom gap-4">
             <div class="dark-mode">
                 <a href="javascript:;" class="footer-icon dark-mode-icon">
                     <i class="material-icons-outlined">dark_mode</i>
@@ -470,6 +458,6 @@
                 </div>
             </div>
 
-        </div>
+        </div> -->
     </aside>
     <!--end sidebar-->

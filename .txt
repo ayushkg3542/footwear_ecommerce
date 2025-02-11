@@ -1,0 +1,15 @@
+1. product title
+2. product category
+3. product subcategory
+4. product description
+5. product short description
+7. product multiple image
+8. color
+9. brand
+10. Old price
+11. New price
+12. Shipping & Returns
+13. Related product
+14. Status
+15. In Stock/Out of Stock
+16. Product Size 

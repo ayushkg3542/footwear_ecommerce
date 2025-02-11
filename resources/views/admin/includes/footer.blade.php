@@ -1,7 +1,7 @@
 <!--start footer-->
-<footer class="page-footer">
+<!-- <footer class="page-footer">
     <p class="mb-0">Copyright © 2023. All right reserved.</p>
-</footer>
+</footer> -->
 <!--top footer-->
 
 <!--start cart-->
@@ -203,13 +203,20 @@
 <script src="{{url('public/admin/assets/js/bootstrap.bundle.min.js')}}"></script>
 
 <!--plugins-->
-<script src="{{url('public/admin/assets/js/jquery.min.js')}}"></script>
-<!--plugins-->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script><!--plugins-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{url('public/admin/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
 <script src="{{url('public/admin/assets/plugins/metismenu/metisMenu.min.js')}}"></script>
 <script src="{{url('public/admin/assets/plugins/apexchart/apexcharts.min.js')}}"></script>
 <script src="{{url('public/admin/assets/js/index.js')}}"></script>
 <script src="{{url('public/admin/assets/plugins/peity/jquery.peity.min.js')}}"></script>
+<script src="{{url('public/admin/assets/plugins/fancy-file-uploader/jquery.ui.widget.js')}}"></script>
+<script src="{{url('public/admin/assets/plugins/fancy-file-uploader/jquery.fileupload.js')}}"></script>
+<script src="{{url('public/admin/assets/plugins/fancy-file-uploader/jquery.iframe-transport.js')}}"></script>
+<script src="{{url('public/admin/assets/plugins/fancy-file-uploader/jquery.fancy-fileupload.js')}}"></script>
+<script src="{{url('public/admin/assets/summernote/summernote.min.js')}}"></script>
+
 <script>
     $(".data-attributes span").peity("donut")
 </script>

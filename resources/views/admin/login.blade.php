@@ -18,11 +18,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&amp;display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!--main css-->
     <link href="{{url('public/admin/assets/css/bootstrap-extended.css')}}" rel="stylesheet">
     <link href="{{url('public/admin/sass/main.css')}}" rel="stylesheet">
     <link href="{{url('public/admin/sass/dark-theme.css')}}" rel="stylesheet">
     <link href="{{url('public/admin/sass/responsive.css')}}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 </head>
 
@@ -30,14 +37,10 @@
     <div class="section-authentication-cover">
         <div class="">
             <div class="row g-0">
-
-                <div class="col-12 col-xl-7 col-xxl-8 auth-cover-left align-items-center justify-content-center d-none d-xl-flex border-end">
-                    <div class="card rounded-0 mb-0 border-0 shadow-none bg-transparent">
-                        <div class="card-body">
-                            <img src="{{url('public/admin/assets/images/auth/login1.png')}}" class="img-fluid auth-img-cover-login" width="650"
-                                alt="">
-                        </div>
-                    </div>
+                <div
+                    class="col-12 col-xl-7 col-xxl-8 auth-cover-left align-items-center justify-content-center d-none d-xl-flex border-end">
+                    <img src="{{url('public/admin/assets/images/login.jpg')}}" class="img-fluid auth-img-cover-login"
+                        style="height: 100%; object-fit: cover;" alt="">
                 </div>
 
                 <div class="col-12 col-xl-5 col-xxl-4 auth-cover-right align-items-center justify-content-center">
@@ -51,14 +54,14 @@
                                 <div class="col-12 col-lg-6">
                                     <button
                                         class="btn btn-filter py-2 font-text1 fw-bold d-flex align-items-center justify-content-center w-100"><img
-                                            src="{{url('public/admin/assets/images/apps/05.png')}}" width="20" class="me-2"
-                                            alt="">Google</button>
+                                            src="{{url('public/admin/assets/images/apps/05.png')}}" width="20"
+                                            class="me-2" alt="">Google</button>
                                 </div>
                                 <div class="col col-lg-6">
                                     <button
                                         class="btn btn-filter py-2 font-text1 fw-bold d-flex align-items-center justify-content-center w-100"><img
-                                            src="{{url('public/admin/assets/images/apps/17.png')}}" width="20" class="me-2"
-                                            alt="">Facebook</button>
+                                            src="{{url('public/admin/assets/images/apps/17.png')}}" width="20"
+                                            class="me-2" alt="">Facebook</button>
                                 </div>
                             </div>
 
@@ -69,18 +72,18 @@
                             </div>
 
                             <div class="form-body mt-4">
-                                <form class="row g-3">
+                                <form action="javascript:void(0)" id="loginform" class="row g-3">
                                     <div class="col-12">
                                         <label for="inputEmailAddress" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="inputEmailAddress"
+                                        <input type="email" class="form-control" name="email" id="inputEmailAddress"
                                             placeholder="jhon@example.com">
                                     </div>
                                     <div class="col-12">
                                         <label for="inputChoosePassword" class="form-label">Password</label>
                                         <div class="input-group" id="show_hide_password">
                                             <input type="password" class="form-control" id="inputChoosePassword"
-                                                value="12345678" placeholder="Enter Password">
-                                            <a href="javascript:;" class="input-group-text bg-transparent"><i
+                                                placeholder="Enter Password" name="password">
+                                            <a class="input-group-text bg-transparent"><i
                                                     class="bi bi-eye-slash-fill"></i></a>
                                         </div>
                                     </div>
@@ -91,7 +94,7 @@
                                                 Me</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 text-end"> <a href="auth-cover-forgot-password.html">Forgot
+                                    <div class="col-md-6 text-end"> <a href="{{route('forgotPassword')}}">Forgot
                                             Password ?</a>
                                     </div>
                                     <div class="col-12">
@@ -124,10 +127,65 @@
 
 
     <!--plugins-->
-    <script src="{{url('public/admin/assets/js/jquery.min.js')}}"></script>
+
 
     <script>
         $(document).ready(function () {
+            $("#loginform").validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6
+                    }
+                },
+                messages: {
+                    email: {
+                        required: "Please enter your email",
+                        email: "Please enter a valid email address"
+                    },
+                    password: {
+                        required: "Please enter your password",
+                        minlength: "Your password must be at least 6 characters long"
+                    }
+                },
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "{{route('login.submit')}}",
+                        type: 'POST',
+                        data: $(form).serialize(),
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+                        },
+                        success: function (response) {
+                            // console.log(response);
+                            if (response.success) {
+                                window.location.href = "{{route('dashboard')}}";
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Login Failed',
+                                    text: response.message
+                                });
+                            }
+                        },
+                        error: function (xhr) {
+                            // console.log(xhr.responseText); 
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!'
+                            });
+                        }
+                    });
+                    return false;
+                }
+
+            });
+
             $("#show_hide_password a").on('click', function (event) {
                 event.preventDefault();
                 if ($('#show_hide_password input').attr("type") == "text") {
