@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ColorCode;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,17 @@ class ProductController extends Controller
      public function allProducts()
      {
          $user = Auth::user();
-         return view('admin.allProducts', compact('user'));
+         $products = Product::select(
+            'products.*',
+            'categories.category as category_name',
+            'sub_categories.subcategory as subcategory_name',
+            'brands.brand as brand_name'
+        )
+        ->leftJoin('categories', 'products.category', '=', 'categories.id')
+        ->leftJoin('sub_categories', 'products.subcategory', '=', 'sub_categories.id')
+        ->leftJoin('brands', 'products.brand', '=', 'brands.id')
+        ->get();
+         return view('admin.allProducts', compact('user','products'));
      }
 
 
@@ -33,6 +44,7 @@ class ProductController extends Controller
      }
 
     public function storeProducts(Request $request){
+        // dd($request->all());
         $request->validate([
             'title' => 'required|string',
             'slug'=>'required',
@@ -46,6 +58,8 @@ class ProductController extends Controller
             'barcode'=>'required',
             'size'=>'required',
             'quantity'=>'required',
+            'colors' => 'required|array',
+            'colors.*' => 'integer',    
             'images.*'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
@@ -64,13 +78,34 @@ class ProductController extends Controller
             $product->brand = $request->brand;
             $product->sku = $request->sku;
             $product->barcode = $request->barcode;
-            $product->colors = $request->colors;
+            $product->colors = implode(',', $request->colors); 
             $product->size = $request->size;
             $product->quantity = $request->quantity;
-
+            $product->status = $request->status;
             $product->save();
-        }catch(\Exception $e){
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $imageName = time() . '_' . uniqid() . '.' . $image->extension();
+                    $image->move(public_path('product_images'), $imageName);
+    
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'images' => $imageName
+                    ]);
+                }
+            }
+
             
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product stored successfully!'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred during storing product details. Please try again later.' . $e->getMessage()
+            ]);
 
         }
     }

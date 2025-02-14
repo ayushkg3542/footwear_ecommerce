@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::get('/', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'adminauthenticate'])->name('login.submit');
     Route::get('/forgotPassword', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
     Route::post('/processForgotPassword', [AuthController::class, 'processForgotPassword'])->name('processForgotPassword');
@@ -88,7 +88,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/allProducts',[ProductController::class, 'allProducts'])->name('allProducts');
         Route::get('/addProducts',[ProductController::class, 'addProducts'])->name('addProducts');
         Route::post('/product/temporary-upload', [ProductController::class, 'temporaryUpload']);
-        Route::post('/storeProducts', [ProductController::class, 'storeProduct'])->name('storeProducts');
+        Route::post('/storeProducts', [ProductController::class, 'storeProducts'])->name('storeProducts');
         Route::get('/getproductSlug', function(Illuminate\Http\Request $request){
             $slug = '';
             $title = $request->title;

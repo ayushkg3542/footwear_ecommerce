@@ -160,8 +160,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center gap-3">
-                                <a type="button" href="javascript:void()" onclick="discard()" class="btn btn-outline-danger flex-fill"><i
-                                        class="bi bi-x-circle me-2"></i>Discard</a>
+                                <button type="button" class="btn btn-outline-danger flex-fill"><i
+                                        class="bi bi-x-circle me-2"></i>Discard</button>
                                 <button type="button" class="btn btn-outline-success flex-fill"><i
                                         class="bi bi-cloud-download me-2"></i>Save Draft</button>
                                 <button type="submit" class="btn btn-outline-primary flex-fill submitButton"><i
@@ -244,15 +244,6 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="quantity" id="quantity"
                                         placeholder="Ex: 1">
-                                </div>
-                                <div class="col-12">
-                                    <label for="quantity" class="form-label">Status <span
-                                            class="text-danger">*</span></label>
-                                    <select name="status" id="status" class="form-control">
-                                        <!-- <option value="">Select</option> -->
-                                        <option value="Active" selected default>Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>
                                 </div>
 
                             </div>
@@ -535,11 +526,6 @@ $(document).ready(function() {
     });
 
 });
-
-function discard(){
-    alert("Are you sure, You want to discard product details?");
-    window.location.href = "{{ 'allProducts' }}";
-}
 </script>
 
 @endsection

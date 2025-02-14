@@ -697,7 +697,7 @@
                         </div>
                         <div class="d-flex flex-column gap-4">
                             <div class="d-flex align-items-center gap-3">
-                                <img src="public/admin/assets/images/orders/01.png" width="78" class="rounded-3" alt="">
+                                <img src="{{url('public/admin/assets/images/orders/01.png')}}" width="78" class="rounded-3" alt="">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">Apple Hand Watch</h6>
                                     <p class="mb-0">Sale: 258</p>
@@ -707,7 +707,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <img src="public/admin/assets/images/orders/08.png" width="78" class="rounded-3" alt="">
+                                <img src="{{url('public/admin/assets/images/orders/08.png')}}" width="78" class="rounded-3" alt="">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">Mobile Phone Set</h6>
                                     <p class="mb-0">Sale: 169</p>
@@ -717,7 +717,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <img src="public/admin/assets/images/orders/03.png" width="78" class="rounded-3" alt="">
+                                <img src="{{url('public/admin/assets/images/orders/03.png')}}" width="78" class="rounded-3" alt="">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">Fancy Chair</h6>
                                     <p class="mb-0">Sale: 268</p>
@@ -727,7 +727,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <img src="public/admin/assets/images/orders/04.png" width="78" class="rounded-3" alt="">
+                                <img src="{{url('public/admin/assets/images/orders/04.png')}}" width="78" class="rounded-3" alt="">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">Blue Shoes Pair</h6>
                                     <p class="mb-0">Sale: 859</p>
@@ -737,7 +737,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <img src="public/admin/assets/images/orders/05.png" width="78" class="rounded-3" alt="">
+                                <img src="{{url('public/admin/assets/images/orders/05.png')}}" width="78" class="rounded-3" alt="">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">Blue Yoga Mat</h6>
                                     <p class="mb-0">Sale: 328</p>
@@ -747,7 +747,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <img src="public/admin/assets/images/orders/06.png" width="75" class="rounded-3" alt="">
+                                <img src="{{url('public/admin/assets/images/orders/06.png')}}" width="75" class="rounded-3" alt="">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">White water Bottle</h6>
                                     <p class="mb-0">Sale: 992</p>
@@ -757,7 +757,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <img src="public/admin/assets/images/orders/07.png" width="78" class="rounded-3" alt="">
+                                <img src="{{url('public/admin/assets/images/orders/07.png')}}" width="78" class="rounded-3" alt="">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">Laptop Full HD</h6>
                                     <p class="mb-0">Sale: 489</p>

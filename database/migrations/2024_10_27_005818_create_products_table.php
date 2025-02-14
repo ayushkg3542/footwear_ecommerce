@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('color');
             $table->string('size');
             $table->string('quantity');
+            $table->string('status');
 
 
             $table->timestamps();
