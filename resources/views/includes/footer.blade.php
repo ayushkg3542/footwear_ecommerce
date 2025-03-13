@@ -90,7 +90,10 @@
 
 <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 <script src="{{url('public/front/js/vendor/jquery-2.2.4.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <script src="{{url('public/front/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{url('public/front/js/jquery.ajaxchimp.min.js')}}"></script>
 <script src="{{url('public/front/js/jquery.nice-select.min.js')}}"></script>
@@ -99,6 +102,7 @@
 <script src="{{url('public/front/js/countdown.js')}}"></script>
 <script src="{{url('public/front/js/jquery.magnific-popup.min.js')}}"></script>
 <script src="{{url('public/front/js/owl.carousel.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 <!--gmaps Js-->
-<script src="{{url('public/front/js/gmaps.min.js')}}"></script>
+<!-- <script src="{{url('public/front/js/gmaps.min.js')}}"></script> -->
 <script src="{{url('public/front/js/main.js')}}"></script>

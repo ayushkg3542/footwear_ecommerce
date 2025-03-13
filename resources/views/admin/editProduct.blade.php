@@ -69,6 +69,8 @@
         <!--  -->
         <!--end breadcrumb-->
         <form action="javascript: void(0)" id="productForm">
+            <input type="hidden" id="product_id" name="product_id" value="{{ $productData->id ?? '' }}">
+            <div id="deletedImagesContainer"></div>
             <div class="row">
                 <div class="col-12 col-lg-8">
                     <div class="card">
@@ -76,27 +78,32 @@
                             <div class="mb-4">
                                 <h5 class="mb-3">Title <span class="text-danger">*</span></h5>
                                 <input type="text" id="title" name="title" class="form-control"
-                                    placeholder="write title here....">
+                                    placeholder="write title here...."
+                                    value="{{ old('title', $productData ? $productData->title : '') }}">
                             </div>
                             <div class="mb-4">
                                 <h5 class="mb-3">Slug</h5>
-                                <input type="text" class="form-control" name="slug" id="slug" readonly>
+                                <input type="text" class="form-control" name="slug" id="slug"
+                                    value="{{ old('slug',$productData ? $productData->slug : '') }}" readonly>
                             </div>
                             <div class="mb-4">
                                 <h5 class="mb-3">Short Description <span class="text-danger">*</span></h5>
                                 <textarea class="form-control" cols="4" id="short_description" name="short_description"
-                                    rows="6"></textarea>
+                                    rows="6">{{ $productData->short_description }}</textarea>
                             </div>
+
                             <div class="mb-4">
                                 <h5 class="mb-3">Detail Description <span class="text-danger">*</span></h5>
                                 <textarea class="form-control" id="detail_description" name="detail_description"
-                                    cols="4" rows="6"></textarea>
+                                    cols="4" rows="6">{{ $productData->detail_description }}</textarea>
                             </div>
+
                             <div class="mb-4">
                                 <h5 class="mb-3">Shipping and Returns <span class="text-danger">*</span></h5>
                                 <textarea class="form-control" id="shipping_returns" name="shipping_returns" cols="4"
-                                    rows="6"></textarea>
+                                    rows="6">{{ $productData->shipping_returns }}</textarea>
                             </div>
+
                             <div class="mb-4">
                                 <h5 class="mb-3">Display images</h5>
                                 <div class="row">
@@ -110,9 +117,24 @@
                                             </div>
                                         </label>
                                         <p id="errorMessage" class="text-danger"></p>
-                                        <div id="imagePreview" class="mt-4"></div>
-                                        <!-- <p id="imageError" class="text-danger"></p> -->
+                                        <div id="imagePreview" class="row mt-4">
+                                            @foreach ($productData->images as $image)
+                                            <div class="col-md-2 mb-3 position-relative existing-image"
+                                                data-image="{{ $image->images }}">
+                                                <img src="{{ url('public/product_images/' . $image->images) }}"
+                                                    class="img-thumbnail" alt="Product Image"
+                                                    style="width: 100%; height: auto;">
+                                                <button type="button" class="btn btn-danger btn-sm delete-image"
+                                                    style="position: absolute; top: 10px; right: 10px;"
+                                                    data-image="{{ $image->images }}">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                            @endforeach
+                                        </div>
+
                                     </div>
+
                                 </div>
                             </div>
                             <div class="mb-4">
@@ -120,11 +142,13 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="new_price">New Price</label>
-                                        <input type="text" name="new_price" class="form-control" id="new_price">
+                                        <input type="text" name="new_price" class="form-control" id="new_price"
+                                            value="{{ old('new_price', $productData ? $productData->new_price : '') }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="old_price">Old Price</label>
-                                        <input type="text" name="old_price" class="form-control" id="old_price">
+                                        <input type="text" name="old_price" class="form-control" id="old_price"
+                                            value="{{ old('old_price', $productData ? $productData->old_price : '') }}">
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +159,8 @@
                                     <div class="col-md-6">
                                         <div class="form-check form-check-success">
                                             <input class="form-check-input" type="radio" name="stock" value="in_stock"
-                                                id="flexRadioSuccess">
+                                                id="flexRadioSuccess"
+                                                {{ old('stock', optional($productData)->stock) == 'in_stock' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="flexRadioSuccess">
                                                 In Stock
                                             </label>
@@ -144,13 +169,15 @@
                                     <div class="col-md-6">
                                         <div class="form-check form-check-danger">
                                             <input class="form-check-input" type="radio" name="stock"
-                                                value="out_of_stock" id="flexRadioDanger">
+                                                value="out_of_stock" id="flexRadioDanger"
+                                                {{ old('stock', optional($productData)->stock) == 'out_of_stock' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="flexRadioDanger">
                                                 Out of Stock
                                             </label>
                                         </div>
                                     </div>
                                 </div>
+
                                 <p id="stock-error" class="text-danger"></p>
                             </div>
                         </div>
@@ -177,20 +204,35 @@
                                     <label for="addcategory" class="form-label">Category<span
                                             class="text-danger">*</span></label>
                                     <select class="form-select" id="addcategory" name="category">
-                                        <option value="" default>Select</option>
+                                        <option value="">Select</option>
                                         @foreach ($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->category}}</option>
+                                        <option value="{{ $category->id }}" @if(isset($productData->category) &&
+                                            $productData->category == $category->id) selected @endif>
+                                            {{ $category->category }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="col-12">
                                     <label for="subcategory" class="form-label">Sub Category</label>
                                     <select class="form-select" id="subcategory" name="subcategory">
-                                        <option value="0">Select</option>
-
+                                        <option value="">Select</option>
+                                        @if ($productData && $productData->subcategory)
+                                        @foreach ($subcategories as $subcategory)
+                                        @if ($subcategory->category_id == $productData->category)
+                                        {{-- category_id is in subcategories table --}}
+                                        <option value="{{ $subcategory->id }}" @if($productData->subcategory ==
+                                            $subcategory->id) selected @endif>
+                                            {{ $subcategory->subcategory }}
+                                        </option>
+                                        @endif
+                                        @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             </div>
+
                             <!--end row-->
                         </div>
                     </div>
@@ -204,28 +246,39 @@
                                     <select name="brand" class="form-control" id="brand">
                                         <option value="">Select</option>
                                         @foreach ($brands as $brand)
-                                        <option value="{{$brand->id}}">{{$brand->brand}}</option>
+                                        <option value="{{ $brand->id }}" @if($productData->brand == $brand->id) selected
+                                            @endif>
+                                            {{ $brand->brand }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-12">
                                     <label for="SKU" class="form-label">SKU (Stock Keeping Unit) <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="SKU" name="sku" placeholder="SKU">
+                                    <input type="text" class="form-control" id="SKU" name="sku" placeholder="SKU"
+                                        value="{{ old('sku', $productData ? $productData->sku : '') }}">
                                 </div>
                                 <div class="col-12">
                                     <label for="barcode">Barcode <span class="text-danger">*</span></label>
                                     <input type="text" maxlength="13" name="barcode" id="barcode" class="form-control"
-                                        placeholder="Barcode">
+                                        placeholder="Barcode"
+                                        value="{{ old('barcode', $productData ? $productData->barcode : '') }}">
                                 </div>
                                 <div class="col-12">
                                     <label for="Choose color" class="form-label">Choose Color</label>
                                     <div class="row">
+                                        @php
+                                        $selectedColors = isset($productData->colors) ? explode(',',
+                                        $productData->colors) : [];
+                                        @endphp
+
                                         @foreach ($colors as $color)
                                         <div class="col-md-3">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="colors[]"
-                                                    value="{{ $color->id }}" id="color{{ $color->id }}">
+                                                    value="{{ $color->id }}" id="color{{ $color->id }}"
+                                                    @if(in_array($color->id, $selectedColors)) checked @endif>
                                                 <label class="form-check-label" for="color{{ $color->id }}">
                                                     {{ $color->name }}
                                                 </label>
@@ -233,17 +286,31 @@
                                         </div>
                                         @endforeach
                                     </div>
+
                                 </div>
 
                                 <div class="col-12">
                                     <label for="Size" class="form-label">Size <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="size" id="Size" placeholder="Size">
+                                    <input type="text" class="form-control" name="size" id="Size" placeholder="Size"
+                                        value="{{ old('size', $productData ? $productData->size : '') }}">
                                 </div>
                                 <div class="col-12">
                                     <label for="quantity" class="form-label">Quantity <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="quantity" id="quantity"
-                                        placeholder="Ex: 1">
+                                        placeholder="Ex: 1"
+                                        value="{{ old('quantity', $productData ? $productData->quantity : '') }}">
+                                </div>
+                                <div class="col-12">
+                                    <label for="quantity" class="form-label">Status <span
+                                            class="text-danger">*</span></label>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="Active" @if($productData->status == 'Active') selected
+                                            @endif>Active</option>
+                                        <option value="Inactive" @if($productData->status == 'Inactive') selected
+                                            @endif>Inactive</option>
+                                    </select>
+
                                 </div>
 
                             </div>
@@ -264,7 +331,7 @@ $(document).ready(function() {
     $('#short_description, #detail_description, #shipping_returns').summernote({
         callbacks: {
             onChange: function(contents, $editable) {
-                $(this).val(contents); 
+                $(this).val(contents);
                 $(this).valid();
             }
         },
@@ -414,21 +481,15 @@ $(document).ready(function() {
             error.addClass('text-danger');
         },
         submitHandler: function(form) {
-            if (selectedFiles.length === 0) {
-                $('#errorMessage').text('Please add at least one image.');
-                
-                // Scroll to the image section using scrollIntoView
-                document.getElementById('errorMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                return false;
-            }
-
             $(".submitButton").prop("disabled", true);
             var formData = new FormData(form);
-            
-            selectedFiles.forEach((file, index) => {
-                formData.append(`images[${index}]`, file);
-            });
+
+            // Append images only if new images are selected
+            if (selectedFiles.length > 0) {
+                selectedFiles.forEach((file, index) => {
+                    formData.append(`images[${index}]`, file);
+                });
+            }
 
             $.ajaxSetup({
                 headers: {
@@ -437,7 +498,8 @@ $(document).ready(function() {
             });
 
             $.ajax({
-                url: '{{route("storeProducts")}}',
+                url: '{{ route("modifyProduct", ["id" => $productData->id]) }}',
+
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -450,9 +512,10 @@ $(document).ready(function() {
                         window.location.reload();
                     } else {
                         console.error('Full Error Response:', response);
-                        toastr.error(response.message ?? 'An unexpected error occurred.', 'Error', {
-                            timeOut: 500
-                        });
+                        toastr.error(response.message ??
+                            'An unexpected error occurred.', 'Error', {
+                                timeOut: 500
+                            });
                     }
                 },
                 error: function(xhr) {
@@ -468,14 +531,12 @@ $(document).ready(function() {
         }
     });
 
-    let selectedFiles = []; 
+    let selectedFiles = [];
 
-    // Handle image selection
     $('#imageInput').on('change', function() {
         const files = Array.from(this.files);
         const imagePreview = $('#imagePreview');
         $('#errorMessage').text('');
-        // $('#imageError').text('');
 
         files.forEach((file) => {
             if (!file.type.startsWith('image/')) {
@@ -483,27 +544,23 @@ $(document).ready(function() {
                 return;
             }
 
-            // Check if file is already selected
             if (selectedFiles.find(f => f.name === file.name)) {
                 $('#errorMessage').text('This image is already selected.');
                 return;
             }
 
-            // Add file to selectedFiles array
             selectedFiles.push(file);
 
-            // Generate preview
             const reader = new FileReader();
             reader.onload = function(e) {
                 const index = selectedFiles.length - 1;
                 const imageHtml = `
-                    <div class="col-md-2 mb-3 position-relative" data-index="${index}">
-                        <img src="${e.target.result}" class="img-thumbnail" alt="Selected Image" style="width: 100%; height: auto;">
-                        <button type="button" class="btn btn-danger btn-sm delete-image" style="position: absolute; top: 10px; right: 10px;" data-index="${index}">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                `;
+                <div class="col-md-2 mb-3 position-relative" data-index="${index}">
+                    <img src="${e.target.result}" class="img-thumbnail" style="width: 100%; height: auto;">
+                    <button type="button" class="btn btn-danger btn-sm delete-image" style="position: absolute; top: 10px; right: 10px;" data-index="${index}">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>`;
                 imagePreview.append(imageHtml);
             };
             reader.readAsDataURL(file);
@@ -514,19 +571,46 @@ $(document).ready(function() {
 
     $('#imagePreview').on('click', '.delete-image', function() {
         const index = $(this).data('index');
-
         selectedFiles.splice(index, 1);
-
         $(this).parent().remove();
 
-        $('#imagePreview .col-md-3').each(function(i) {
+        $('#imagePreview .col-md-2').each(function(i) {
             $(this).attr('data-index', i);
             $(this).find('.delete-image').attr('data-index', i);
         });
     });
+
+
+
+    let deletedImages = []; // This will store images to be removed from DB
+
+    $('#imagePreview').on('click', '.delete-image', function () {
+        const isConfirmed = confirm("Are you sure you want to delete this image?");
+        if (!isConfirmed) {
+            return; // If user cancels, do nothing.
+        }
+
+        const imageName = $(this).data('image');
+
+        // Only add to deletedImages if it's an existing image (from DB)
+        if (imageName) {
+            deletedImages.push(imageName);
+
+            // Optional: Add this to a hidden input for form submission
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'deleted_images[]',
+                value: imageName
+            }).appendTo('#imagePreview');
+        }
+
+        $(this).parent().remove();
+    });
+
 
 });
 </script>
 
 @endsection
 
+<!--  -->

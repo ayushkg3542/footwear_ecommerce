@@ -35,17 +35,23 @@
                         <div class="menu-title">Products</div>
                     </a>
                     <ul>
-                        <li><a href="{{route('category')}}"><i class="material-icons-outlined">arrow_right</i>Category</a>
+                        <li><a href="{{route('category')}}"><i
+                                    class="material-icons-outlined">arrow_right</i>Category</a>
                         </li>
-                        <li><a href="{{route('subcategory')}}"><i class="material-icons-outlined">arrow_right</i>Sub Category</a>
+                        <li><a href="{{route('subcategory')}}"><i class="material-icons-outlined">arrow_right</i>Sub
+                                Category</a>
                         </li>
-                        <li><a href="{{route('brand')}}"><i class="material-icons-outlined">arrow_right</i>Manage Brand</a>
+                        <li><a href="{{route('brand')}}"><i class="material-icons-outlined">arrow_right</i>Manage
+                                Brand</a>
                         </li>
-                        <li><a href="{{route('color')}}"><i class="material-icons-outlined">arrow_right</i>Manage Color</a>
+                        <li><a href="{{route('color')}}"><i class="material-icons-outlined">arrow_right</i>Manage
+                                Color</a>
                         </li>
-                        <li><a href="{{route('allProducts')}}"><i class="material-icons-outlined">arrow_right</i>All Products</a>
+                        <li><a href="{{route('allProducts')}}"><i class="material-icons-outlined">arrow_right</i>All
+                                Products</a>
                         </li>
-                        <li><a href="{{route('addProducts')}}"><i class="material-icons-outlined">arrow_right</i>Add Products</a>
+                        <li><a href="{{route('addProducts')}}"><i class="material-icons-outlined">arrow_right</i>Add
+                                Products</a>
                         </li>
                     </ul>
                 </li>
@@ -73,6 +79,23 @@
                         </li>
                         <li><a href="ecommerce-customer-details.html"><i
                                     class="material-icons-outlined">arrow_right</i>Order Details</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow" href="javascript:;">
+                        <div class="parent-icon"><i class="material-icons-outlined">api</i>
+                        </div>
+                        <div class="menu-title">Manage Coupons</div>
+                    </a>
+                    <ul>
+                        <li><a href="{{ route('couponList') }}"
+                                class="{{ request()->routeIs('couponList') ? 'active' : '' }}">
+                                <i class="material-icons-outlined">arrow_right</i>Coupon List</a>
+                        </li>
+                        <li><a href="{{ route('manageCoupon', ['id' => 0]) }}"
+                                class="{{ request()->routeIs('manageCoupon') ? 'active' : '' }}">
+                                <i class="material-icons-outlined">arrow_right</i>Add Coupon</a>
                         </li>
                     </ul>
                 </li>

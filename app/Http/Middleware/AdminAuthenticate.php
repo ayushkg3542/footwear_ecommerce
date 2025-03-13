@@ -17,10 +17,11 @@ class AdminAuthenticate
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You must be logged in to access the dashboard.');
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('login');
         }
-
+    
         return $next($request);
     }
+    
 }

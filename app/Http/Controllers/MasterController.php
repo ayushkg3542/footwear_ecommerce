@@ -18,9 +18,9 @@ class MasterController extends Controller
 {
     public function category()
     {
-        $user = Auth::user();
+        $adminuser = Auth::guard('admin')->user();
         $categories = Category::get();
-        return view('admin.category', compact('user', 'categories'));
+        return view('admin.category', compact('adminuser', 'categories'));
     }
 
     public function storeCategory(Request $request)
@@ -121,10 +121,10 @@ class MasterController extends Controller
 
     public function subcategory()
     {
-        $user = Auth::user();
+        $adminuser = Auth::guard('admin')->user();
         $categories = Category::get();
         $subcategories = SubCategory::with('category')->get();
-        return view('admin.subcategory', compact('user', 'categories', 'subcategories'));
+        return view('admin.subcategory', compact('adminuser', 'categories', 'subcategories'));
     }
 
     public function storesubCategory(Request $request)
@@ -192,9 +192,9 @@ class MasterController extends Controller
 
     public function brand()
     {
-        $user = Auth::user();
+        $adminuser = Auth::guard('admin')->user();
         $brands = Brand::get();
-        return view('admin.brand', compact('user', 'brands'));
+        return view('admin.brand', compact('adminuser', 'brands'));
     }
 
     public function storeBrand(Request $request)
@@ -264,9 +264,9 @@ class MasterController extends Controller
 
     public function color()
     {
-        $user = Auth::user();
+        $adminuser = Auth::guard('admin')->user();
         $colors = ColorCode::get();
-        return view('admin.color', compact('user', 'colors'));
+        return view('admin.color', compact('adminuser', 'colors'));
     }
 
     public function storeColor(Request $request)

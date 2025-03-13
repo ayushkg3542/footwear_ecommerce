@@ -1,10 +1,18 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\CartController;
+
+use App\Http\Controllers\WishlistController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +33,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/processForgotPassword', [AuthController::class, 'processForgotPassword'])->name('processForgotPassword');
     Route::get('/resetPassword/{token}', [AuthController::class, 'resetPassword'])->name('resetPassword');
     Route::post('/processResetPassword', [AuthController::class, 'processResetPassword'])->name('processResetPassword');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
     Route::middleware(['auth.custom'])->group(function () {
         Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
@@ -102,9 +112,49 @@ Route::group(['prefix' => 'admin'], function () {
             ]);
         })->name('getproductSlug');
         Route::get('/getSubcategories', [ProductController::class, 'getSubcategories'])->name('getSubcategories');
+        Route::post('/productDestroy/{id}', [ProductController::class,'destroy'])->name('productDestroy');
+        Route::get('/editProduct/{id}',[ProductController::class, 'editProduct'])->name('editProduct');
+        Route::post('/modifyProduct/{id}', [ProductController::class, 'modifyProduct'])->name('modifyProduct');
 
+        Route::get('/couponList',[CouponController::class, 'couponList'])->name('couponList');
+        Route::get('/manageCoupon/{id}',[CouponController::class, 'manageCoupon'])->name('manageCoupon');
+        Route::post('/storeCoupon', [CouponController::class, 'storeCoupon'])->name('storeCoupon');
+        Route::post('/updateDiscount/{id}', [CouponController::class, 'storeCoupon'])->name('updateDiscount');
 
     });
 });
 
 Route::get('/',[HomeController::class, 'home'])->name('home');
+Route::get('/account/login',[UserAuthController::class,'getLogin'])->name('account.login');
+Route::post('/account/login', [UserAuthController::class, 'authenticate'])->name('account.authenticate');
+Route::get('/account/register',[UserAuthController::class,'getRegister'])->name('account.register');
+Route::get('/account/dashboard',[UserAuthController::class, 'dashboard'])->name('account.dashboard');
+Route::post('/account/processSignup', [UserAuthController::class, 'processSignUp'])->name('account.processSignup');
+Route::get('/logout', [UserAuthController::class, 'logout'])->name('account.logout');
+
+
+Route::post('/account/update-profile', [UserAuthController::class, 'updateProfile'])->name('account.updateProfile');
+Route::post('/account/update-address', [UserAuthController::class, 'updateAddress'])->name('account.updateAddress');
+
+
+Route::get('auth/google', [UserAuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('auth/google/callback', [UserAuthController::class, 'handleGoogleCallback']);
+
+
+Route::get('auth/facebook', [UserAuthController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('auth/facebook/callback', [UserAuthController::class, 'handleFacebookCallback']);
+
+
+Route::get('/cart',[CartController::class,'cart'])->name('cart');
+Route::post('/add-to-cart',[CartController::class, 'addToCart'])->name('addToCart');
+Route::post('/cart/remove',[CartController::class,'removeCart'])->name('cart.remove');
+Route::post('/cart/update',[CartController::class,'updateCartQuantity'])->name('cart.updateQuantity');
+
+Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('wishlist');
+Route::post('/add-to-wishlist',[WishlistController::class, 'addToWishlist'])->name('addToWishlist');
+Route::post('/removeFromWishlist',[WishlistController::class, 'removeFromWishlist'])->name('removeFromWishlist');
+
+Route::get('/products',[ProductCategoryController::class, 'allProducts'])->name('products');
+
+Route::get('/product-details/{slug}', [ProductCategoryController::class, 'productDetails'])->name('productDetails');
+Route::get('/checkout',[CartController::class, 'checkout'])->name('checkout');

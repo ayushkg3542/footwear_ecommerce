@@ -79,22 +79,29 @@
                         </tr>
                     </thead>
                     <tbody class="tableBody">
-                    @foreach ($brands as $key => $brand)
+                        @if ($brands->count() > 0)
+                        
+                        @foreach ($brands as $key => $brand)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{$brand->brand}}</td>
+                                <td>{{$brand->slug}}</td>
+                                <td>{{$brand->status}}</td>
+                                <td>
+                                    <button class="btn p-0 editbtn" data-id="{{ $brand->id }}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button class="btn p-0 deletebtn" data-id="{{ $brand->id }}" data-type="brand">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @else
                         <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{$brand->brand}}</td>
-                            <td>{{$brand->slug}}</td>
-                            <td>{{$brand->status}}</td>
-                            <td>
-                                <button class="btn p-0 editbtn" data-id="{{ $brand->id }}">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <button class="btn p-0 deletebtn" data-id="{{ $brand->id }}" data-type="brand">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
+                            <td colspan="12" class="text-center">No data available</td>
                         </tr>
-                        @endforeach
+                            @endif
                     </tbody>
                 </table>
             </div>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('short_description');
             $table->text('detail_description');
-            $table->string('shipping_returns');
+            $table->text('shipping_returns');
             $table->string('new_price');
             $table->string('old_price');
             $table->string('stock');

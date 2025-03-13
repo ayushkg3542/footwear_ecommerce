@@ -16,9 +16,13 @@ class AuthController extends Controller
 {
     public function dashboard()
     {
-        $user = Auth::user();
-        return view('admin.dashboard', compact('user'));
+        $adminuser = Auth::guard('admin')->user();
+        if (!$adminuser) {
+            abort(403, 'No admin logged in');
+        }
+        return view('admin.dashboard', compact('adminuser'));
     }
+    
 
     public function login()
     {
@@ -40,17 +44,17 @@ class AuthController extends Controller
         }
     
         try {
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                $user = Auth::user();
-    
-                if (in_array($user->role, [1, 2])) {
+            if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                $adminuser = Auth::guard('admin')->user();
+            
+                if (in_array($adminuser->role, [1, 2])) {
                     return response()->json([
                         'success' => true,
                         'message' => 'Logged in successfully',
-                        'redirect_url' => route('dashboard') // Send back URL
+                        'redirect_url' => route('dashboard') 
                     ]);
                 } else {
-                    Auth::logout();
+                    Auth::guard('admin')->logout();
                     return response()->json([
                         'success' => false,
                         'message' => 'You are not authorized to access the dashboard.'
@@ -91,12 +95,12 @@ class AuthController extends Controller
                 'created_at' => now()
             ]);
 
-            $user = User::where('email', $request->email)->first();
+            $adminuser = User::where('email', $request->email)->first();
 
             $mailData = [
                 'subject' => 'Password Reset Token',
                 'token' => $token,
-                'user' => $user
+                'user' => $adminuser
             ];
 
             Mail::to($request->email)->send(new ResetPasswordEmail($mailData));
@@ -129,13 +133,22 @@ class AuthController extends Controller
             'confirm_password' => 'required | same:new_password'
         ]);
         if ($validator->passes()) {
-            $user = User::where('email', $tokenObject->email)->first();
-            $user->password = Hash::make($request->new_password);
-            $user->save();
+            $adminuser = User::where('email', $tokenObject->email)->first();
+            $adminuser->password = Hash::make($request->new_password);
+            $adminuser->save();
             return redirect()->route('login')->with('success', 'You have successfully updated your password');
         } else {
             return redirect()->route('resetPassword', $token)->withErrors($validator);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('message', 'You have been logged out successfully.');
     }
 
 }

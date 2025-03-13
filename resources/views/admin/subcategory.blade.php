@@ -74,6 +74,7 @@
                         </tr>
                     </thead>
                     <tbody class="tableBody">
+                        @if($subcategories->count() > 0)
                         @foreach ($subcategories as $key => $subcategory)
                         <tr>
                             <td>{{ $key + 1 }}</td>
@@ -91,6 +92,11 @@
                             </td>
                         </tr>
                         @endforeach
+                        @else
+                        <tr>
+                            <td class="text-center" colspan="12">No data found</td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
