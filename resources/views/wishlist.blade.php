@@ -27,6 +27,7 @@
             </div>
             <div class="row">
                 <!-- single product -->
+                @if ($wishlistItems->count() > 0)
                 @foreach ($wishlistItems as $item)
                 <div class="col-lg-3 col-md-6">
                     <div class="single-product">
@@ -59,6 +60,11 @@
                     </div>
                 </div>
                 @endforeach
+                @else
+                <div class="col-lg-12 text-center bg-light">
+                    <h2>No items in your wishlist</h2>
+                </div>
+                @endif
 
             </div>
         </div>

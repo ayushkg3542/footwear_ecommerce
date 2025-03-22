@@ -160,7 +160,7 @@
                     <span><i class="bi bi-person"></i> Account Details</span>
                 </label>
                 <label for="blog" class="blog">
-                    <span><i class="bi bi-bag-heart"></i> Orders</span>
+                    <span><i class="bi bi-bag-heart"></i> My Orders</span>
                 </label>
                 <label for="help" class="help">
                     <span><i class="bi bi-credit-card"></i> Credits</span>
@@ -276,108 +276,109 @@
                                             <select name="state" id="state" class="form-control">
                                                 <option value="">Select State</option>
                                                 <option value="Andhra Pradesh"
-                                                    {{ $userAddress->state == 'Andhra Pradesh' ? 'selected' : ''}}>
-                                                    Andhra Pradesh</option>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Andhra Pradesh' ? 'selected' : '' }}>
+                                                    Andhra Pradesh
+                                                </option>
                                                 <option value="Arunachal Pradesh"
-                                                    {{ $userAddress->state == 'Arunachal Pradesh' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Arunachal Pradesh' ? 'selected' : ''}}>
                                                     Arunachal Pradesh</option>
                                                 <option value="Assam"
-                                                    {{ $userAddress->state == 'Assam' ? 'selected' : ''}}>Assam</option>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Assam' ? 'selected' : ''}}>Assam</option>
                                                 <option value="Bihar"
-                                                    {{ $userAddress->state == 'Bihar' ? 'selected' : ''}}>Bihar</option>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Bihar' ? 'selected' : ''}}>Bihar</option>
                                                 <option value="Chhattisgarh"
-                                                    {{ $userAddress->state == 'Chhattisgarh' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Chhattisgarh' ? 'selected' : ''}}>
                                                     Chhattisgarh</option>
                                                 <option value="Gujarat"
-                                                    {{ $userAddress->state == 'Gujarat' ? 'selected' : ''}}>Gujarat
+                                                    {{ isset($userAddress) && $userAddress->state == 'Gujarat' ? 'selected' : ''}}>Gujarat
                                                 </option>
                                                 <option value="Haryana"
-                                                    {{ $userAddress->state == 'Haryana' ? 'selected' : ''}}>Haryana
+                                                    {{ isset($userAddress) && $userAddress->state == 'Haryana' ? 'selected' : ''}}>Haryana
                                                 </option>
                                                 <option value="Himachal Pradesh"
-                                                    {{ $userAddress->state == 'Himachal Pradesh' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Himachal Pradesh' ? 'selected' : ''}}>
                                                     Himachal Pradesh</option>
                                                 <option value="Jammu and Kashmir"
-                                                    {{ $userAddress->state == 'Jammu and Kashmir' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Jammu and Kashmir' ? 'selected' : ''}}>
                                                     Jammu and Kashmir</option>
-                                                <option value="Goa" {{ $userAddress->state == 'Goa' ? 'selected' : ''}}>
+                                                <option value="Goa" {{ isset($userAddress) && $userAddress->state == 'Goa' ? 'selected' : ''}}>
                                                     Goa</option>
                                                 <option value="Jharkhand"
-                                                    {{ $userAddress->state == 'Jharkhand' ? 'selected' : ''}}>Jharkhand
+                                                    {{ isset($userAddress) && $userAddress->state == 'Jharkhand' ? 'selected' : ''}}>Jharkhand
                                                 </option>
                                                 <option value="Karnataka"
-                                                    {{ $userAddress->state == 'Karnataka' ? 'selected' : ''}}>Karnataka
+                                                    {{ isset($userAddress) && $userAddress->state == 'Karnataka' ? 'selected' : ''}}>Karnataka
                                                 </option>
                                                 <option value="Kerala"
-                                                    {{ $userAddress->state == 'Kerala' ? 'selected' : ''}}>Kerala
+                                                    {{ isset($userAddress) && $userAddress->state == 'Kerala' ? 'selected' : ''}}>Kerala
                                                 </option>
                                                 <option value="Madhya Pradesh"
-                                                    {{ $userAddress->state == 'Madhya Pradesh' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Madhya Pradesh' ? 'selected' : ''}}>
                                                     Madhya Pradesh</option>
                                                 <option value="Maharashtra"
-                                                    {{ $userAddress->state == 'Maharashtra' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Maharashtra' ? 'selected' : ''}}>
                                                     Maharashtra</option>
                                                 <option value="Manipur"
-                                                    {{ $userAddress->state == 'Manipur' ? 'selected' : ''}}>Manipur
+                                                    {{ isset($userAddress) && $userAddress->state == 'Manipur' ? 'selected' : ''}}>Manipur
                                                 </option>
                                                 <option value="Meghalaya"
-                                                    {{ $userAddress->state == 'Meghalaya' ? 'selected' : ''}}>Meghalaya
+                                                    {{ isset($userAddress) && $userAddress->state == 'Meghalaya' ? 'selected' : ''}}>Meghalaya
                                                 </option>
                                                 <option value="Mizoram"
-                                                    {{ $userAddress->state == 'Mizoram' ? 'selected' : ''}}>Mizoram
+                                                    {{ isset($userAddress) && $userAddress->state == 'Mizoram' ? 'selected' : ''}}>Mizoram
                                                 </option>
                                                 <option value="Nagaland"
-                                                    {{ $userAddress->state == 'Nagaland' ? 'selected' : ''}}>Nagaland
+                                                    {{ isset($userAddress) && $userAddress->state == 'Nagaland' ? 'selected' : ''}}>Nagaland
                                                 </option>
                                                 <option value="Odisha"
-                                                    {{ $userAddress->state == 'Odisha' ? 'selected' : ''}}>Odisha
+                                                    {{ isset($userAddress) && $userAddress->state == 'Odisha' ? 'selected' : ''}}>Odisha
                                                 </option>
                                                 <option value="Punjab"
-                                                    {{ $userAddress->state == 'Punjab' ? 'selected' : ''}}>Punjab
+                                                    {{ isset($userAddress) && $userAddress->state == 'Punjab' ? 'selected' : ''}}>Punjab
                                                 </option>
                                                 <option value="Rajasthan"
-                                                    {{ $userAddress->state == 'Rajasthan' ? 'selected' : ''}}>Rajasthan
+                                                    {{ isset($userAddress) && $userAddress->state == 'Rajasthan' ? 'selected' : ''}}>Rajasthan
                                                 </option>
                                                 <option value="Sikkim"
-                                                    {{ $userAddress->state == 'Sikkim' ? 'selected' : ''}}>Sikkim
+                                                    {{ isset($userAddress) && $userAddress->state == 'Sikkim' ? 'selected' : ''}}>Sikkim
                                                 </option>
                                                 <option value="Tamil Nadu"
-                                                    {{ $userAddress->state == 'Tamil Nadu' ? 'selected' : ''}}>Tamil
+                                                    {{ isset($userAddress) && $userAddress->state == 'Tamil Nadu' ? 'selected' : ''}}>Tamil
                                                     Nadu</option>
                                                 <option value="Telangana"
-                                                    {{ $userAddress->state == 'Telangana' ? 'selected' : ''}}>Telangana
+                                                    {{ isset($userAddress) && $userAddress->state == 'Telangana' ? 'selected' : ''}}>Telangana
                                                 </option>
                                                 <option value="Tripura"
-                                                    {{ $userAddress->state == 'Tripura' ? 'selected' : ''}}>Tripura
+                                                    {{ isset($userAddress) && $userAddress->state == 'Tripura' ? 'selected' : ''}}>Tripura
                                                 </option>
                                                 <option value="Uttarakhand"
-                                                    {{ $userAddress->state == 'Uttarakhand' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Uttarakhand' ? 'selected' : ''}}>
                                                     Uttarakhand</option>
                                                 <option value="Uttar Pradesh"
-                                                    {{ $userAddress->state == 'Uttar Pradesh' ? 'selected' : ''}}>Uttar
+                                                    {{ isset($userAddress) && $userAddress->state == 'Uttar Pradesh' ? 'selected' : ''}}>Uttar
                                                     Pradesh</option>
                                                 <option value="West Bengal"
-                                                    {{ $userAddress->state == 'West Bengal' ? 'selected' : ''}}>West
+                                                    {{ isset($userAddress) && $userAddress->state == 'West Bengal' ? 'selected' : ''}}>West
                                                     Bengal</option>
                                                 <option value="Andaman and Nicobar Islands"
-                                                    {{ $userAddress->state == 'Andaman and Nicobar Islands' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Andaman and Nicobar Islands' ? 'selected' : ''}}>
                                                     Andaman and Nicobar Islands</option>
                                                 <option value="Chandigarh"
-                                                    {{ $userAddress->state == 'Chandigarh' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Chandigarh' ? 'selected' : ''}}>
                                                     Chandigarh</option>
                                                 <option value="Dadra and Nagar Haveli"
-                                                    {{ $userAddress->state == 'Dadra and Nagar Haveli' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Dadra and Nagar Haveli' ? 'selected' : ''}}>
                                                     Dadra and Nagar Haveli</option>
                                                 <option value="Daman and Diu"
-                                                    {{ $userAddress->state == 'Daman and Diu' ? 'selected' : ''}}>Daman
+                                                    {{ isset($userAddress) && $userAddress->state == 'Daman and Diu' ? 'selected' : ''}}>Daman
                                                     and Diu</option>
                                                 <option value="Delhi"
-                                                    {{ $userAddress->state == 'Delhi' ? 'selected' : ''}}>Delhi</option>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Delhi' ? 'selected' : ''}}>Delhi</option>
                                                 <option value="Lakshadweep"
-                                                    {{ $userAddress->state == 'Lakshadweep' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Lakshadweep' ? 'selected' : ''}}>
                                                     Lakshadweep</option>
                                                 <option value="Puducherry"
-                                                    {{ $userAddress->state == 'Puducherry' ? 'selected' : ''}}>
+                                                    {{ isset($userAddress) && $userAddress->state == 'Puducherry' ? 'selected' : ''}}>
                                                     Puducherry</option>
                                             </select>
                                         </div>
@@ -393,13 +394,38 @@
 
                 </div>
                 <div class="blog text">
-                    <div class="title">Blog Content</div>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor reprehenderit, delectus enim velit
-                        quis modi vel facere maxime amet sit sequi nemo nisi debitis expedita soluta, doloremque ex
-                        ullam et quos id similique eius dignissimos odio. Obcaecati ullam mollitia hic illum!
-                        Accusantium earum odio dolore, natus consequatur voluptas in! Hic quae distinctio veritatis
-                        laboriosam illo dolor voluptates, vero accusantium corporis ab error nemo harum aperiam! Eaque
-                        blanditiis voluptas molestiae quam?</p>
+                    <div class="title">My Orders</div>
+                    @foreach($orders as $order)
+                    @foreach($order->orderItems as $item)
+                    <a href="{{ route('orderDetails',['order' => encrypt($order->id)]) }}">
+                        <div class="card mb-3">
+                            <div class="card-body text-dark">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="{{ url('public/product_images/' . $item->product->images->first()->images ?? 'default.png') }}"
+                                            class="img-fluid" style="height: 100px" alt="{{ $item->product->title }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>{{ $item->product->title }}</h5>
+                                        <p>Price: <strong>₹{{ number_format($item->product->new_price, 2) }}</strong>
+                                        </p>
+                                        <p>Quantity: <strong>{{ $item->quantity }}</strong></p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- <p>Order ID: #{{ $order->id }}</p> -->
+                                        <p>Payment Status: <span
+                                                class="badge bg-success">{{ ucfirst($order->status) }}</span></p>
+                                        <!-- <p>Payment ID: <strong>{{ $order->razorpay_payment_id }}</strong> </p> -->
+                                        <p>Amount Paid: <strong> ₹{{ number_format($order->total_amount, 2) }}</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    @endforeach
+                    @endforeach
+
                 </div>
                 <div class="help text">
                     <div class="title">Help</div>
@@ -474,7 +500,7 @@ $(document).ready(function() {
             data: $(this).serialize(),
             success: function(response) {
                 notyf.success(response.message);
-                location.reload(); 
+                location.reload();
             },
             error: function(xhr) {
                 notyf.error('Failed to update address. ' + (xhr.responseJSON?.message ||

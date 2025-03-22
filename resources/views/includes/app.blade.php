@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -117,18 +117,26 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            $("#searchForm").submit(function(e){
-                e.preventDefault();
-                let searchQuery = $("#search_input").val().trim();
+    $(document).ready(function() {
+        $("#searchForm").submit(function(e) {
+            e.preventDefault();
+            let searchQuery = $("#search_input").val().trim();
 
-                if(searchQuery !== ""){
-                    window.location.href = "{{ route('products') }}?search=" + encodeURIComponent(searchQuery);
-                }
-            });
-        })
+            if (searchQuery !== "") {
+                window.location.href = "{{ route('products') }}?search=" + encodeURIComponent(
+                    searchQuery);
+            }
+        });
+    })
     </script>
 
+    <script>
+    var botmanWidget = {
+        aboutText: 'Start the conversation with Hi',
+        introMessage: "WELCOME TO CODE SHOTCUT"
+    };
+    </script>
+    <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
 
 
 </body>

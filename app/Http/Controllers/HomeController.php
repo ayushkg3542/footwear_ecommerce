@@ -27,6 +27,10 @@ class HomeController extends Controller
         $products = $query->get();
         return view('products', compact('products'));
     }
+
+    public function contact(){
+        return view('contact');
+    }
 }
 
 // 

@@ -19,7 +19,7 @@
 	                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
 	                        <li class="nav-item"><a href="{{ route('products') }}" class="nav-link">Shop</a></li>
 	                        <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
-	                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+	                        <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact</a></li>
 
 	                        <li class="nav-item submenu dropdown">
 	                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
@@ -32,6 +32,10 @@
 	                                @endauth
 	                            </a>
 	                            <ul class="dropdown-menu">
+									@if (Auth::user())
+									<li class="nav-item"><a class="nav-link" href="{{ route('account.dashboard') }}">Dashboard</a>
+									</li>
+									@endif
 	                                <li class="nav-item"><a class="nav-link" href="{{ route('wishlist') }}">Wishlist</a>
 	                                </li>
 	                                @guest
@@ -50,11 +54,11 @@
 	                    </ul>
 	                    <ul class="nav navbar-nav navbar-right">
 	                        <li class="nav-item"><a href="{{ route('cart') }}" class="cart"><span class="ti-bag"></span>
-
-	                                @if(session('cart_count')>0)
+	                                @if(session('cart_count', 0) > 0)
 	                                <span class="cart-count text-light bg-danger">{{ session('cart_count') }}</span>
 	                                @endif
-	                            </a></li>
+	                            </a>
+	                        </li>
 	                        <li class="nav-item">
 	                            <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
 	                        </li>

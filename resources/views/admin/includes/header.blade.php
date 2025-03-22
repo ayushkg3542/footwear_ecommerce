@@ -78,8 +78,8 @@
                                 <div class="search-list d-flex flex-column gap-2">
                                     <div class="search-list-item d-flex align-items-center gap-3">
                                         <div class="memmber-img">
-                                            <img src="{{url('public/admin/assets/images/avatars/01.png')}}" width="32" height="32"
-                                                class="rounded-circle" alt="">
+                                            <img src="{{url('public/admin/assets/images/avatars/01.png')}}" width="32"
+                                                height="32" class="rounded-circle" alt="">
                                         </div>
                                         <div class="">
                                             <h5 class="mb-0 search-list-title ">Andrew Stark</h5>
@@ -88,8 +88,8 @@
 
                                     <div class="search-list-item d-flex align-items-center gap-3">
                                         <div class="memmber-img">
-                                            <img src="{{url('public/admin/assets/images/avatars/02.png')}}" width="32" height="32"
-                                                class="rounded-circle" alt="">
+                                            <img src="{{url('public/admin/assets/images/avatars/02.png')}}" width="32"
+                                                height="32" class="rounded-circle" alt="">
                                         </div>
                                         <div class="">
                                             <h5 class="mb-0 search-list-title ">Snetro Jhonia</h5>
@@ -98,8 +98,8 @@
 
                                     <div class="search-list-item d-flex align-items-center gap-3">
                                         <div class="memmber-img">
-                                            <img src="{{url('public/admin/assets/images/avatars/03.png')}}" width="32" height="32"
-                                                class="rounded-circle" alt="">
+                                            <img src="{{url('public/admin/assets/images/avatars/03.png')}}" width="32"
+                                                height="32" class="rounded-circle" alt="">
                                         </div>
                                         <div class="">
                                             <h5 class="mb-0 search-list-title">Michle Clark</h5>
@@ -133,7 +133,8 @@
                                                 <!-- <div class="mega-menu-icon flex-shrink-0">
                           <i class="material-icons-outlined">question_answer</i>
                         </div> -->
-                                                <img src="{{url('public/admin/assets/images/megaIcons/06.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/06.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Marketing</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -148,7 +149,8 @@
                                     <div class="card rounded-4 shadow-none border mb-0">
                                         <div class="card-body">
                                             <div class="d-flex align-items-start gap-3">
-                                                <img src="{{url('public/admin/assets/images/megaIcons/02.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/02.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Website</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -163,7 +165,8 @@
                                     <div class="card rounded-4 shadow-none border mb-0">
                                         <div class="card-body">
                                             <div class="d-flex align-items-start gap-3">
-                                                <img src="{{url('public/admin/assets/images/megaIcons/03.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/03.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Subscribers</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -178,7 +181,8 @@
                                     <div class="card rounded-4 shadow-none border mb-0">
                                         <div class="card-body">
                                             <div class="d-flex align-items-start gap-3">
-                                                <img src="{{url('public/admin/assets/images/megaIcons/01.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/01.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Hubspot</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -193,7 +197,8 @@
                                     <div class="card rounded-4 shadow-none border mb-0">
                                         <div class="card-body">
                                             <div class="d-flex align-items-start gap-3">
-                                                <img src="{{url('public/admin/assets/images/megaIcons/11.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/11.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Templates</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -208,7 +213,8 @@
                                     <div class="card rounded-4 shadow-none border mb-0">
                                         <div class="card-body">
                                             <div class="d-flex align-items-start gap-3">
-                                                <img src="{{url('public/admin/assets/images/megaIcons/13.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/13.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Ebooks</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -223,7 +229,8 @@
                                     <div class="card rounded-4 shadow-none border mb-0">
                                         <div class="card-body">
                                             <div class="d-flex align-items-start gap-3">
-                                                <img src="{{url('public/admin/assets/images/megaIcons/12.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/12.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Sales</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -238,7 +245,8 @@
                                     <div class="card rounded-4 shadow-none border mb-0">
                                         <div class="card-body">
                                             <div class="d-flex align-items-start gap-3">
-                                                <img src="{{url('public/admin/assets/images/megaIcons/08.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/08.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Tools</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -253,7 +261,8 @@
                                     <div class="card rounded-4 shadow-none border mb-0">
                                         <div class="card-body">
                                             <div class="d-flex align-items-start gap-3">
-                                                <img src="{{url('public/admin/assets/images/megaIcons/09.png')}}" width="40" alt="">
+                                                <img src="{{url('public/admin/assets/images/megaIcons/09.png')}}"
+                                                    width="40" alt="">
                                                 <div class="mega-menu-content">
                                                     <h5>Academy</h5>
                                                     <p class="mb-0 f-14">In publishing and graphic design, Lorem ipsum
@@ -264,7 +273,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><!--end row-->
+                            </div>
+                            <!--end row-->
                         </div>
                     </div>
                 </li>
@@ -277,7 +287,8 @@
                                 <div class="col border-end">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/01.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/01.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Gmail</p>
@@ -287,7 +298,8 @@
                                 <div class="col border-end">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/02.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/02.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Skype</p>
@@ -297,20 +309,23 @@
                                 <div class="col">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/03.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/03.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Slack</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div><!--end row-->
+                            </div>
+                            <!--end row-->
 
                             <div class="row row-cols-3 g-0 border-bottom">
                                 <div class="col border-end">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/04.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/04.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">YouTube</p>
@@ -320,7 +335,8 @@
                                 <div class="col border-end">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/05.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/05.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Google</p>
@@ -330,20 +346,23 @@
                                 <div class="col">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/06.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/06.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Instagram</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div><!--end row-->
+                            </div>
+                            <!--end row-->
 
                             <div class="row row-cols-3 g-0 border-bottom">
                                 <div class="col border-end">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/07.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/07.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Spotify</p>
@@ -353,7 +372,8 @@
                                 <div class="col border-end">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/08.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/08.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Yahoo</p>
@@ -363,20 +383,23 @@
                                 <div class="col">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/09.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/09.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Facebook</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div><!--end row-->
+                            </div>
+                            <!--end row-->
 
                             <div class="row row-cols-3 g-0">
                                 <div class="col border-end">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/10.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/10.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Figma</p>
@@ -386,7 +409,8 @@
                                 <div class="col border-end">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/11.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/11.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Paypal</p>
@@ -396,14 +420,16 @@
                                 <div class="col">
                                     <div class="app-wrapper d-flex flex-column gap-2 text-center">
                                         <div class="app-icon">
-                                            <img src="{{url('public/admin/assets/images/apps/12.png')}}" width="36" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/12.png')}}" width="36"
+                                                alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0">Photo</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div><!--end row-->
+                            </div>
+                            <!--end row-->
                         </div>
                     </div>
                 </li>
@@ -452,8 +478,8 @@
                                 <a class="dropdown-item border-bottom py-2" href="javascript:;">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="">
-                                            <img src="{{url('public/admin/assets/images/avatars/01.png')}}" class="rounded-circle" width="45"
-                                                height="45" alt="">
+                                            <img src="{{url('public/admin/assets/images/avatars/01.png')}}"
+                                                class="rounded-circle" width="45" height="45" alt="">
                                         </div>
                                         <div class="">
                                             <h5 class="notify-title">Congratulations Jhon</h5>
@@ -487,8 +513,8 @@
                                 <a class="dropdown-item border-bottom py-2" href="javascript:;">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="">
-                                            <img src="{{url('public/admin/assets/images/apps/13.png')}}" class="rounded-circle" width="45"
-                                                height="45" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/13.png')}}"
+                                                class="rounded-circle" width="45" height="45" alt="">
                                         </div>
                                         <div class="">
                                             <h5 class="notify-title">Payment Recived</h5>
@@ -505,8 +531,8 @@
                                 <a class="dropdown-item border-bottom py-2" href="javascript:;">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="">
-                                            <img src="{{url('public/admin/assets/images/apps/14.png')}}" class="rounded-circle" width="45"
-                                                height="45" alt="">
+                                            <img src="{{url('public/admin/assets/images/apps/14.png')}}"
+                                                class="rounded-circle" width="45" height="45" alt="">
                                         </div>
                                         <div class="">
                                             <h5 class="notify-title">New Order Recived</h5>
@@ -523,8 +549,8 @@
                                 <a class="dropdown-item border-bottom py-2" href="javascript:;">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="">
-                                            <img src="{{url('public/admin/assets/images/avatars/06.png')}}" class="rounded-circle" width="45"
-                                                height="45" alt="">
+                                            <img src="{{url('public/admin/assets/images/avatars/06.png')}}"
+                                                class="rounded-circle" width="45" height="45" alt="">
                                         </div>
                                         <div class="">
                                             <h5 class="notify-title">Congratulations Jhon</h5>
@@ -560,19 +586,21 @@
                 <li class="nav-item">
                     <a class="nav-link position-relative" data-bs-toggle="offcanvas" href="#offcanvasCart"><i
                             class="material-icons-outlined">shopping_cart</i>
-                        <span class="badge-notify bg-dark">8</span>
+                        @if($orderCount > 0)
+                        <span class="badge-notify bg-dark">{{ $orderCount }}</span>
+                        @endif 
                     </a>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="javascrpt:;" class="dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown">
-                        <img src="{{url('public/admin/assets/images/avatars/01.png')}}" class="rounded-circle p-1 border" width="45"
-                            height="45">
+                        <img src="{{url('public/admin/assets/images/avatars/01.png')}}"
+                            class="rounded-circle p-1 border" width="45" height="45">
                     </a>
                     <div class="dropdown-menu dropdown-user dropdown-menu-end shadow">
                         <a class="dropdown-item  gap-2 py-2" href="javascript:;">
                             <div class="text-center">
-                                <img src="{{url('public/admin/assets/images/avatars/01.png')}}" class="rounded-circle p-1 shadow mb-3"
-                                    width="90" height="90" alt="">
+                                <img src="{{url('public/admin/assets/images/avatars/01.png')}}"
+                                    class="rounded-circle p-1 shadow mb-3" width="90" height="90" alt="">
                                 <h5 class="user-name mb-0 fw-bold">Welcome {{ $adminuser->name }}</h5>
                             </div>
                         </a>

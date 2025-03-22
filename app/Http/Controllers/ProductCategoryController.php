@@ -37,5 +37,84 @@ class ProductCategoryController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Product not found: ' . $e->getMessage()]);
         }
     }
+
+    public function filterProductsBySubcategory(Request $request)
+    {
+        // dd($request->all());
+        // die();
+        $subcategoryId = $request->subcategory;
+        $products = Product::where('subcategory', $subcategoryId)->get();
+
+        $html = '';
+        if ($products->count() > 0) {
+            foreach ($products as $item) {
+                $html .= '<div class="col-lg-4 col-md-6">
+                            <div class="single-product">
+                                <a href="'.route('productDetails', ['slug' => $item->slug]).'">
+                                    <img class="img-fluid" src="'.url('public/product_images/' . ($item->images->first()->images ?? 'default.png')).'" alt="'.$item->slug.'">
+                                </a>
+                                <div class="product-details">
+                                    <h6>'.$item->title.'</h6>
+                                    <div class="price">
+                                        <h6>₹'.$item->new_price.'</h6>
+                                        <h6 class="l-through">₹'.$item->old_price.'</h6>
+                                    </div>
+                                    <div class="prd-bottom">
+                                        <a href="javascript:void(0)" data-id="'.$item->id.'" class="social-info add-to-cart">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text">add to bag</p>
+                                        </a>
+                                        <a href="javascript:void(0)" data-id="'.$item->id.'" class="social-info add-to-wishlist">
+                                            <span class="lnr lnr-heart"></span>
+                                            <p class="hover-text">Wishlist</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+            }
+        } else {
+            $html = '<p class="text-center w-100">No Product found</p>';
+        }
+
+        return response()->json($html);
+    }
+
+    public function filterProductsByBrand(Request $request){
+        $brandId = $request->brand;
+        $products = Product::where('brand', $brandId)->get();
+
+        return view('filtered_products', compact('products'))->render();
+    }
+
+    public function filterProductsByColor(Request $request)
+    {
+        $colorId = $request->color_id;
+    
+        $color = ColorCode::find($colorId);
+    
+        if (!$color) {
+            return response()->json(['error' => 'Color not found'], 404);
+        }
+    
+        $products = Product::where('colors', $colorId)->get();
+    
+        return view('filtered_products', compact('products'))->render();
+    }
+    
+
+    public function filterProductsByPrice(Request $request)
+{
+    $minPrice = $request->min_price;
+    $maxPrice = $request->max_price;
+
+    $products = Product::whereBetween('new_price', [$minPrice, $maxPrice])->get();
+
+    return view('filtered_products', compact('products'))->render();
+}
+
+    
+    
+
     
 }

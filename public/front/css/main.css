@@ -3870,7 +3870,7 @@ label {
 }
 
 .cupon_area input {
-  margin-left: 30px;
+  /* margin-left: 30px; */
   max-width: 730px;
   width: 100%;
   display: block;
@@ -3885,7 +3885,7 @@ label {
 }
 
 .cupon_area .tp_btn {
-  margin-left: 30px;
+  /* margin-left: 30px; */
 }
 
 .tp_btn {

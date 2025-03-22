@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ResetPasswordEmail;
+use App\Models\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,10 @@ class AuthController extends Controller
         if (!$adminuser) {
             abort(403, 'No admin logged in');
         }
-        return view('admin.dashboard', compact('adminuser'));
+
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count();        
+        return view('admin.dashboard', compact('adminuser','orderCount','todayOrders'));
     }
     
 

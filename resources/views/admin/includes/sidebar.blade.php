@@ -55,6 +55,20 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="parent-icon"><i class="material-icons-outlined">shopping_bag</i>
+                        </div>
+                        <div class="menu-title">Orders</div>
+                    </a>
+                    <ul>
+                        <li><a href="{{route('orderList')}}"><i
+                                    class="material-icons-outlined">arrow_right</i>Order Lists</a>
+                        </li>
+                        <li><a href="{{route('order.details')}}"><i class="material-icons-outlined">arrow_right</i>Order Details</a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li>
                     <a href="javascript:;" class="has-arrow">

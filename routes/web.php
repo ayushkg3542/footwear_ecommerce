@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BotManController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDetailsController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserAuthController;
@@ -121,6 +125,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/storeCoupon', [CouponController::class, 'storeCoupon'])->name('storeCoupon');
         Route::post('/updateDiscount/{id}', [CouponController::class, 'storeCoupon'])->name('updateDiscount');
 
+        Route::get('/orderList',[OrderDetailsController::class, 'orderList'])->name('orderList');
+        Route::get('/orderDetails',[OrderDetailsController::class, 'orderDetails'])->name('order.details');
+
+
     });
 });
 
@@ -155,6 +163,31 @@ Route::post('/add-to-wishlist',[WishlistController::class, 'addToWishlist'])->na
 Route::post('/removeFromWishlist',[WishlistController::class, 'removeFromWishlist'])->name('removeFromWishlist');
 
 Route::get('/products',[ProductCategoryController::class, 'allProducts'])->name('products');
+Route::get('/filter-products', [ProductCategoryController::class, 'filterProductsBySubcategory'])->name('filterProductsBySubcategory');
+Route::get('/filter-products-by-brand', [ProductCategoryController::class, 'filterProductsByBrand'])->name('filterProductsByBrand');
+Route::get('/filter-products-by-color', [ProductCategoryController::class, 'filterProductsByColor'])->name('filterProductsByColor');
+Route::get('/filter-products-by-price', [ProductCategoryController::class, 'filterProductsByPrice'])->name('filterProductsByPrice');
+
+
 
 Route::get('/product-details/{slug}', [ProductCategoryController::class, 'productDetails'])->name('productDetails');
 Route::get('/checkout',[CartController::class, 'checkout'])->name('checkout');
+Route::post('/checkout/store', [CartController::class, 'checkoutStore'])->name('checkout.store');
+
+
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+
+Route::match(['get', 'post'], '/footwear_ecommerce/botman', [BotManController::class, 'handle']);
+
+Route::post('/razorpay-initiate', [PaymentController::class, 'initiatePayment'])->name('razorpay-initiate');
+Route::post('/razorpay-payment', [PaymentController::class, 'handlePayment'])->name('razorpay-payment');
+Route::get('/order-success', function () {
+    return view('order_success');
+})->name('order.success');
+
+Route::get('/order-failed', function () {
+    return view('order_failed');
+})->name('order.failed');
+
+
+Route::get('/order-details/{order}', [OrderController::class, 'orderDetails'])->name('orderDetails');

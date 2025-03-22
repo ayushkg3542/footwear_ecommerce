@@ -181,15 +181,35 @@ class CartController extends Controller
         }
     }
 
-    public function checkout(){
+    public function checkout() {
         $user = auth()->user();
-        $address = \DB::table('user_addresses')->where('user_id',$user->id)->first();
+    
+        if (!$user || !$user->id) {
+            return redirect()->route('home')->with('error', 'User not found.');
+        }
+    
+        $address = \DB::table('user_addresses')->where('user_id', $user->id)->first();
         $cartItems = \DB::table('carts')
-        ->join('products', 'carts.product_id', '=', 'products.id')
-        ->where('carts.user_id', $user->id)
-        ->select('products.title', 'products.new_price', 'carts.qty')
-        ->get();
-        return view('checkout',compact('user','address','cartItems'));
+            ->join('products', 'carts.product_id', '=', 'products.id')
+            ->where('carts.user_id', $user->id)
+            ->select('products.title', 'products.new_price', 'carts.qty')
+            ->get();
+    
+        return view('checkout', compact('user', 'address', 'cartItems'));
     }
+    
+
+    public function checkoutStore(Request $request)
+{
+    $orderDetails = [
+        'products' => $request->cartItems, // Ensure cart items are passed in the request
+        'subtotal' => $request->subtotal,
+        'shipping' => 50,
+        'total' => $request->subtotal + 50
+    ];
+
+    Session::put('order_details', $orderDetails);
+    return response()->json(['message' => 'Order stored successfully']);
+}
     
 }

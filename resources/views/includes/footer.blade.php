@@ -106,3 +106,5 @@
 <!--gmaps Js-->
 <!-- <script src="{{url('public/front/js/gmaps.min.js')}}"></script> -->
 <script src="{{url('public/front/js/main.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+

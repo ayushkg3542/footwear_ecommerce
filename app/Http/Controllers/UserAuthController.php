@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Orders;
 use App\Models\UserAddress;
 use Auth;
 use Exception;
@@ -157,7 +158,13 @@ class UserAuthController extends Controller
     public function dashboard(Request $request){
         $userDetails = Auth::user();
         $userAddress = $userDetails->address;
-        return view('account.dashboard',compact('userDetails', 'userAddress'));
+
+        $orders = Orders::where('user_id', $userDetails->id)
+        ->with(['orderItems.product.images']) 
+        ->orderBy('created_at', 'desc')
+        ->get();
+        // dd($orders);
+        return view('account.dashboard',compact('userDetails', 'userAddress','orders'));
     }
 
 
