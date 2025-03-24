@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OrderController;
@@ -127,6 +128,11 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::get('/orderList',[OrderDetailsController::class, 'orderList'])->name('orderList');
         Route::get('/orderDetails',[OrderDetailsController::class, 'orderDetails'])->name('order.details');
+
+        Route::get('/customers',[CustomerController::class, 'customers'])->name('customers');
+
+        Route::get('/cmspage',[MasterController::class, 'cmspage'])->name('cmspage');
+        Route::get('/managecms',[MasterController::class, 'managecms'])->name('managecms');
 
 
     });

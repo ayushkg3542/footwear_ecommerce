@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ColorCode;
+use App\Models\Orders;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
@@ -29,7 +30,9 @@ class ProductController extends Controller
         ->leftJoin('sub_categories', 'products.subcategory', '=', 'sub_categories.id')
         ->leftJoin('brands', 'products.brand', '=', 'brands.id')
         ->get();
-         return view('admin.allProducts', compact('adminuser','products'));
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
+         return view('admin.allProducts', compact('adminuser','products','todayOrders','orderCount'));
      }
 
 
@@ -42,7 +45,9 @@ class ProductController extends Controller
          $subcategories = SubCategory::where('status','Active')->get();
          $brands = Brand::where('status','Active')->get();
          $colors = ColorCode::where('status','Active')->get();
-         return view('admin.addProducts', compact('adminuser','brands','categories','subcategories','colors'));
+         $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
+         return view('admin.addProducts', compact('adminuser','brands','categories','subcategories','colors','todayOrders','orderCount'));
      }
 
     public function storeProducts(Request $request){

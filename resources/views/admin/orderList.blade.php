@@ -6,7 +6,7 @@
     <div class="main-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Components</div>
+            <div class="breadcrumb-title pe-3">Orders</div>
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
@@ -16,31 +16,14 @@
                     </ol>
                 </nav>
             </div>
-            <div class="ms-auto">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Settings</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-                        data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"> <a class="dropdown-item"
-                            href="javascript:;">Action</a>
-                        <a class="dropdown-item" href="javascript:;">Another action</a>
-                        <a class="dropdown-item" href="javascript:;">Something else here</a>
-                        <div class="dropdown-divider"></div> <a class="dropdown-item" href="javascript:;">Separated
-                            link</a>
-                    </div>
-                </div>
-            </div>
         </div>
         <!--end breadcrumb-->
 
         <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-            <a href="javascript:;"><span class="me-1">All</span><span class="text-secondary">(85472)</span></a>
-            <a href="javascript:;"><span class="me-1">Pending Payment</span><span class="text-secondary">(86)</span></a>
-            <a href="javascript:;"><span class="me-1">Incomplete</span><span class="text-secondary">(76)</span></a>
-            <a href="javascript:;"><span class="me-1">Completed</span><span class="text-secondary">(8759)</span></a>
-            <a href="javascript:;"><span class="me-1">Refunded</span><span class="text-secondary">(769)</span></a>
-            <a href="javascript:;"><span class="me-1">Failed</span><span class="text-secondary">(42)</span></a>
+            <a href="javascript:;"><span class="me-1">All</span><span class="text-secondary">({{ $totalOrderCount }})</span></a>
+            <a href="javascript:;"><span class="me-1">Order Pending Status</span><span class="text-secondary">({{ $pendingOrder }})</span></a>
+            <a href="javascript:;"><span class="me-1">Order Delivered</span><span class="text-secondary">({{ $completedOrder }})</span></a>
+            <a href="javascript:;"><span class="me-1">Refunded</span><span class="text-secondary">({{ $orderRefunded }})</span></a>
         </div>
 
         <div class="row g-3">
@@ -81,26 +64,11 @@
                             <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
                         </ul>
                     </div>
-                    <div class="btn-group position-static">
-                        <button type="button" class="btn border btn-filter dropdown-toggle px-4"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            More Filters
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a></li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
             <div class="col-auto">
                 <div class="d-flex align-items-center gap-2 justify-content-lg-end">
                     <button class="btn btn-filter px-4"><i class="bi bi-box-arrow-right me-2"></i>Export</button>
-                    <button class="btn btn-primary px-4"><i class="bi bi-plus-lg me-2"></i>Add Order</button>
                 </div>
             </div>
         </div>
@@ -120,194 +88,54 @@
                                     <th>Price</th>
                                     <th>Customer</th>
                                     <th>Payment Status</th>
-                                    <th>Completed Payment</th>
-                                    <th>Delivery Type</th>
+                                    <th>Order Status</th>
+                                    <th>Payment Type</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                
+                                @foreach($orders as $order)
                                 <tr>
                                     <td>
                                         <input class="form-check-input" type="checkbox">
                                     </td>
                                     <td>
-                                        <a href="javascript:;">#2415</a>
+                                        <a
+                                            href="{{ route('order.details', ['order' => encrypt($order->id)]) }}">#{{ $order->id }}</a>
                                     </td>
-                                    <td>$98</td>
+                                    <td>₹{{ number_format($order->total_amount, 2) }}</td>
                                     <td>
                                         <a class="d-flex align-items-center gap-3" href="javascript:;">
-                                            <div class="customer-pic">
-                                                <img src="assets/images/avatars/01.png" class="rounded-circle"
-                                                    width="40" height="40" alt="">
-                                            </div>
-                                            <p class="mb-0 customer-name fw-bold">Andrew Carry</p>
+                                            <p class="mb-0 customer-name fw-bold">{{ $order->user->name }}</p>
                                         </a>
                                     </td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Nov 12, 10:45 PM</td>
+                                    <td>
+                                        <span class="lable-table bg-{{ $order->payment_status == 'paid' ? 'success' : 'warning' }}-subtle 
+                                    text-{{ $order->payment_status == 'paid' ? 'success' : 'warning' }} rounded 
+                                    border border-{{ $order->payment_status == 'paid' ? 'success' : 'warning' }}-subtle 
+                                    font-text2 fw-bold">
+                                            {{ ucfirst($order->payment_status) }}
+                                            <i
+                                                class="bi bi-{{ $order->payment_status == 'paid' ? 'check2' : 'exclamation-lg' }} ms-2"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="lable-table bg-{{ $order->status == 'pending' ? 'warning' : 'success' }}-subtle 
+                                    text-{{ $order->status == 'pending' ? 'warning' : 'success' }} rounded 
+                                    border border-{{ $order->status == 'pending' ? 'warning' : 'success' }}-subtle 
+                                    font-text2 fw-bold">
+                                            {{ ucfirst($order->status) }}
+                                            <i
+                                                class="bi bi-{{ $order->status == 'pending' ? 'x-lg' : 'check2' }} ms-2"></i>
+                                        </span>
+                                    </td>
+                                    <td>{{ ucfirst($order->payment_method == 'prepaid' ? 'Net Banking' : '') }}</td>
+                                    <td>{{ $order->created_at->format('M d, h:i A') }}</td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <a href="javascript:;">#7845</a>
-                                    </td>
-                                    <td>$110</td>
-                                    <td>
-                                        <a class="d-flex align-items-center gap-3" href="javascript:;">
-                                            <div class="customer-pic">
-                                                <img src="assets/images/avatars/02.png" class="rounded-circle"
-                                                    width="40" height="40" alt="">
-                                            </div>
-                                            <p class="mb-0 customer-name fw-bold">Andrew Carry</p>
-                                        </a>
-                                    </td>
-                                    <td><span
-                                            class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Pending<i
-                                                class="bi bi-info-circle ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-primary-subtle text-primary rounded border border-primary-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2-all ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Nov 12, 10:45 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <a href="javascript:;">#5674</a>
-                                    </td>
-                                    <td>$86</td>
-                                    <td>
-                                        <a class="d-flex align-items-center gap-3" href="javascript:;">
-                                            <div class="customer-pic">
-                                                <img src="assets/images/avatars/03.png" class="rounded-circle"
-                                                    width="40" height="40" alt="">
-                                            </div>
-                                            <p class="mb-0 customer-name fw-bold">Andrew Carry</p>
-                                        </a>
-                                    </td>
-                                    <td><span
-                                            class="lable-table bg-primary-subtle text-primary rounded border border-primary-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2-all ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Nov 12, 10:45 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <a href="javascript:;">#6678</a>
-                                    </td>
-                                    <td>$78</td>
-                                    <td>
-                                        <a class="d-flex align-items-center gap-3" href="javascript:;">
-                                            <div class="customer-pic">
-                                                <img src="assets/images/avatars/04.png" class="rounded-circle"
-                                                    width="40" height="40" alt="">
-                                            </div>
-                                            <p class="mb-0 customer-name fw-bold">Andrew Carry</p>
-                                        </a>
-                                    </td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Paid<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Nov 12, 10:45 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <a href="javascript:;">#2367</a>
-                                    </td>
-                                    <td>$69</td>
-                                    <td>
-                                        <a class="d-flex align-items-center gap-3" href="javascript:;">
-                                            <div class="customer-pic">
-                                                <img src="assets/images/avatars/05.png" class="rounded-circle"
-                                                    width="40" height="40" alt="">
-                                            </div>
-                                            <p class="mb-0 customer-name fw-bold">Andrew Carry</p>
-                                        </a>
-                                    </td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Pending<i
-                                                class="bi bi-info-circle ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Nov 12, 10:45 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <a href="javascript:;">#9870</a>
-                                    </td>
-                                    <td>$49</td>
-                                    <td>
-                                        <a class="d-flex align-items-center gap-3" href="javascript:;">
-                                            <div class="customer-pic">
-                                                <img src="assets/images/avatars/06.png" class="rounded-circle"
-                                                    width="40" height="40" alt="">
-                                            </div>
-                                            <p class="mb-0 customer-name fw-bold">Andrew Carry</p>
-                                        </a>
-                                    </td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Nov 12, 10:45 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <a href="javascript:;">#3456</a>
-                                    </td>
-                                    <td>$65</td>
-                                    <td>
-                                        <a class="d-flex align-items-center gap-3" href="javascript:;">
-                                            <div class="customer-pic">
-                                                <img src="assets/images/avatars/07.png" class="rounded-circle"
-                                                    width="40" height="40" alt="">
-                                            </div>
-                                            <p class="mb-0 customer-name fw-bold">Andrew Carry</p>
-                                        </a>
-                                    </td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Nov 12, 10:45 PM</td>
-                                </tr>
+                                @endforeach
+                                
+
 
 
                             </tbody>

@@ -21,4 +21,10 @@ class Orders extends Model
     public function orderItems() {
         return $this->hasMany(OrderItems::class, 'order_id'); // Explicitly define the foreign key
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

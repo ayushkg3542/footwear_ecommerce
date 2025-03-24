@@ -71,32 +71,6 @@
                 </li>
 
                 <li>
-                    <a href="javascript:;" class="has-arrow">
-                        <div class="parent-icon"><i class="material-icons-outlined">shopping_bag</i>
-                        </div>
-                        <div class="menu-title">eCommerce</div>
-                    </a>
-                    <ul>
-                        <li><a href="ecommerce-add-product.html"><i class="material-icons-outlined">arrow_right</i>Add
-                                Product</a>
-                        </li>
-                        <li><a href="ecommerce-products.html"><i
-                                    class="material-icons-outlined">arrow_right</i>Products</a>
-                        </li>
-                        <li><a href="ecommerce-customers.html"><i
-                                    class="material-icons-outlined">arrow_right</i>Customers</a>
-                        </li>
-                        <li><a href="ecommerce-customer-details.html"><i
-                                    class="material-icons-outlined">arrow_right</i>Customer Details</a>
-                        </li>
-                        <li><a href="ecommerce-orders.html"><i class="material-icons-outlined">arrow_right</i>Orders</a>
-                        </li>
-                        <li><a href="ecommerce-customer-details.html"><i
-                                    class="material-icons-outlined">arrow_right</i>Order Details</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
                     <a class="has-arrow" href="javascript:;">
                         <div class="parent-icon"><i class="material-icons-outlined">api</i>
                         </div>
@@ -112,6 +86,21 @@
                                 <i class="material-icons-outlined">arrow_right</i>Add Coupon</a>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <a href="{{ route('cmspage') }}">
+                        <div class="parent-icon"><i class="material-icons-outlined">person</i>
+                        </div>
+                        <div class="menu-title">Manage CMS</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('customers') }}">
+                        <div class="parent-icon"><i class="material-icons-outlined">person</i>
+                        </div>
+                        <div class="menu-title">Customres</div>
+                    </a>
                 </li>
                 <!-- <li>
                     <a class="has-arrow" href="javascript:;">

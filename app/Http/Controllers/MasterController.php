@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ColorCode;
+use App\Models\Orders;
 use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,9 @@ class MasterController extends Controller
     {
         $adminuser = Auth::guard('admin')->user();
         $categories = Category::get();
-        return view('admin.category', compact('adminuser', 'categories'));
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
+        return view('admin.category', compact('adminuser', 'categories','todayOrders','orderCount'));
     }
 
     public function storeCategory(Request $request)
@@ -124,7 +127,9 @@ class MasterController extends Controller
         $adminuser = Auth::guard('admin')->user();
         $categories = Category::get();
         $subcategories = SubCategory::with('category')->get();
-        return view('admin.subcategory', compact('adminuser', 'categories', 'subcategories'));
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
+        return view('admin.subcategory', compact('adminuser', 'categories', 'subcategories','todayOrders','orderCount'));
     }
 
     public function storesubCategory(Request $request)
@@ -193,8 +198,10 @@ class MasterController extends Controller
     public function brand()
     {
         $adminuser = Auth::guard('admin')->user();
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
         $brands = Brand::get();
-        return view('admin.brand', compact('adminuser', 'brands'));
+        return view('admin.brand', compact('adminuser', 'brands','todayOrders','orderCount'));
     }
 
     public function storeBrand(Request $request)
@@ -265,8 +272,10 @@ class MasterController extends Controller
     public function color()
     {
         $adminuser = Auth::guard('admin')->user();
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
         $colors = ColorCode::get();
-        return view('admin.color', compact('adminuser', 'colors'));
+        return view('admin.color', compact('adminuser', 'colors','todayOrders','orderCount'));
     }
 
     public function storeColor(Request $request)
@@ -333,6 +342,24 @@ class MasterController extends Controller
             ]);
         }
     }
+
+    // start manage CMS
+
+    public function cmspage(){
+        $adminuser = Auth::guard('admin')->user();
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count();
+        return view('admin.cmspageList',compact('adminuser','todayOrders','orderCount'));
+    }
+
+    public function managecms(Request $request){
+        $adminuser = Auth::guard('admin')->user();
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count();  
+        return view('admin.managecms',compact('adminuser','todayOrders','orderCount'));
+    }
+
+    // end manage CMS
 
     // =================================================================================================================================================================
 
