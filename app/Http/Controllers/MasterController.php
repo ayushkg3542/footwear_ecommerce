@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\CmsPage;
 use App\Models\ColorCode;
 use App\Models\Orders;
 use App\Models\SubCategory;
+use App\Models\ShippingCharge;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -349,17 +351,160 @@ class MasterController extends Controller
         $adminuser = Auth::guard('admin')->user();
         $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
         $orderCount = $todayOrders->count();
-        return view('admin.cmspageList',compact('adminuser','todayOrders','orderCount'));
+        $cmspages = CmsPage::all();
+        return view('admin.cmspageList',compact('adminuser','todayOrders','orderCount','cmspages'));
     }
 
-    public function managecms(Request $request){
+    public function managecms(Request $request, $id = null){
         $adminuser = Auth::guard('admin')->user();
         $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
         $orderCount = $todayOrders->count();  
-        return view('admin.managecms',compact('adminuser','todayOrders','orderCount'));
+        $cmspage =null;
+        if($id){
+            $cmspage = CmsPage::find($id);
+        }
+        return view('admin.managecms',compact('adminuser','todayOrders','orderCount','cmspage'));
     }
 
+    public function storecms(Request $request)
+{
+    $id = $request->cmspage_id; 
+    $rules = [
+        'title'       => 'required',
+        'description' => 'required',
+        'url'         => 'required|string|max:255|unique:cms_pages,url' . ($id ? ",$id" : ""),
+    ];
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status'  => 'fail',
+            'message' => $validator->errors()->first(),
+        ], 400);
+    }
+
+    try {
+        // If $id is present, update the existing CMS page
+        if ($id) {
+            $cmsPage = CmsPage::find($id);
+            if (!$cmsPage) {
+                return response()->json([
+                    'status'  => 'fail',
+                    'message' => 'CMS Page not found!',
+                ], 404);
+            }
+            $message = 'CMS Page updated successfully!';
+        } else {
+            // Otherwise, create a new CMS page
+            $cmsPage = new CmsPage();
+            $message = 'CMS Page created successfully!';
+        }
+
+        $cmsPage->title            = $request->title;
+        $cmsPage->description      = $request->description;
+        $cmsPage->url              = $request->url;
+        $cmsPage->meta_title       = $request->meta_title;
+        $cmsPage->meta_description = $request->meta_description;
+        $cmsPage->meta_keywords    = $request->meta_keywords;
+        $cmsPage->status           = $request->status;
+        $cmsPage->save();
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => $message,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status'  => 'fail',
+            'message' => 'Something went wrong. Please try again.',
+            'error'   => $e->getMessage(),
+        ], 500);
+    }
+}
+
+
     // end manage CMS
+
+
+    // Start Shipping Charges
+
+    public function shippingCharge()
+    {
+        $adminuser = Auth::guard('admin')->user();
+        $shippingCharges = ShippingCharge::all();
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
+        return view('admin.shipping_charges', compact('adminuser', 'todayOrders','orderCount','shippingCharges'));
+    }
+
+    public function storeShippingCharge(Request $request)
+    {
+        // Validate incoming request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required',
+            'status' => 'required|in:Active,Inactive',
+        ]);
+
+        $shipping_name = $request->name;
+        $price = $request->price;
+        $status = $request->status;
+
+        // Check if the category already exists
+        $query = ShippingCharge::where('name', $shipping_name)->first();
+        if ($query) {
+            return response()->json(['status' => 'fail', 'message' => 'This Shipping Charge already exists', 'error' => 'name']);
+        }
+
+        // Initialize new category instance
+        $shippingCharge = new ShippingCharge;
+        $shippingCharge->name = $shipping_name;
+        $shippingCharge->price = $price;
+        $shippingCharge->status = $status;
+
+        // Save the shippingCharge
+        $shippingCharge->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Shipping Charge added successfully']);
+    }
+
+
+
+    public function getShippingCharge(Request $request)
+    {
+        $id = $request->dataid;
+        $details = ShippingCharge::where('id', $id)->first();
+        return response()->json(['status' => 'success', 'data' => $details]);
+    }
+
+    public function modifyShippingCharge(Request $request)
+    {
+        $id = $request->id;
+        $shipping_name = $request->name;
+        $price = $request->price;
+        $status = $request->status;
+
+        try {
+            $shippingCharge = ShippingCharge::findOrFail($id);
+            $shippingCharge->name = $shipping_name;
+            $shippingCharge->price = $price;
+            $shippingCharge->status = $status;
+
+            $shippingCharge->save();
+
+            return response()->json(['status' => 'success', 'message' => 'Data updated successfully']);
+        } catch (\Exception $e) {
+            \Log::error('Error updating category data: ', ['error' => $e]);
+
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Failed to modify data. Please try again later.',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 
     // =================================================================================================================================================================
 
@@ -391,10 +536,17 @@ class MasterController extends Controller
                 $deletedata = ColorCode::find($deleteId);
                 $message = 'Color Deleted Successfully';
                 break;
+            case 'shipping_charges':
+                $deletedata = ShippingCharge::find($deleteId);
+                $message = 'Charge Deleted Successfully';
+                break;  
 
             default:
                 return response()->json(['status' => 'fail', 'message' => 'Invalid type specified']);
         }
+
+        // dd($deletedata);
+        // die();
 
         if ($deletedata) {
             $deletedata->delete();

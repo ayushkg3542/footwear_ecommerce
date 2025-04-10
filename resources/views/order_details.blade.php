@@ -2,96 +2,102 @@
 @section('content')
 
 <style>
-.status-progress-wrap {
-    display: flex;
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 30px 0px 0px;
+/* .hh-grayBox {
+    background-color: #F8F8F8;
+    margin-bottom: 20px;
+    padding: 35px;
+    margin-top: 20px;
+} */
+
+.pt45 {
+    padding-top: 45px;
+}
+
+.order-tracking {
+    text-align: center;
+    width: 33.33%;
     position: relative;
+    display: block;
 }
 
-.status-progress-bar-wrap {
-    position: absolute;
-    width: 100%;
-    top: 0px;
-    height: 6px;
-    background: #dfdfdf;
-    border-radius: 10px;
-}
-
-.status-progress-bar {
-    background: #03A9F4;
-    height: 100%;
-    width: 10%;
-    border-radius: 10px;
-    display: inline-flex;
-    vertical-align: top;
-    justify-content: flex-end;
-    transition: width 1s linear;
-}
-
-.status-wrap {
-    display: inline-flex;
-    flex-direction: column;
-    background: #fff;
-    width: 25%;
-    align-items: center;
+.order-tracking .is-complete {
+    display: block;
     position: relative;
-}
-
-.status-wrap span {
-    color: #ddd;
-    transition: all ease 0.25s;
-}
-
-.status-wrap:hover span {
-    color: #03A9F4;
-    transition: all ease 0.3s;
-}
-
-.status-wrap::after {
-    content: "";
-    width: 12px;
-    height: 12px;
-    margin-top: -33px;
-    background: #dfdfdf;
-    display: inline-block;
-    vertical-align: top;
-    transform: scale(1.25);
-    transform-origin: center;
     border-radius: 50%;
-    position: absolute;
-    top: 0;
-}
-
-.status-wrap::before {
-    content: "";
-    width: 12px;
-    height: 12px;
-    margin-top: -33px;
-    background: #03A9F4;
-    display: inline-block;
-    vertical-align: top;
-    transform: scale(0);
-    transform-origin: center;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
+    height: 30px;
+    width: 30px;
+    border: 0px solid #AFAFAF;
+    background-color: #f7be16;
+    margin: 0 auto;
+    transition: background 0.25s linear;
+    -webkit-transition: background 0.25s linear;
     z-index: 2;
-    transition: all ease .7s;
 }
 
-.status-wrap.active::before {
-    transform: scale(1.25);
-    transition: all ease .7s;
+.order-tracking .is-complete:after {
+    display: block;
+    position: absolute;
+    content: '';
+    height: 14px;
+    width: 7px;
+    top: -2px;
+    bottom: 0;
+    left: 5px;
+    margin: auto 0;
+    border: 0px solid #AFAFAF;
+    border-width: 0px 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
 }
 
-.status-wrap:nth-child(2) {
-    align-items: flex-start;
+.order-tracking.completed .is-complete {
+    border-color: #27aa80;
+    border-width: 0px;
+    background-color: #27aa80;
 }
 
-.status-wrap:last-child {
-    align-items: flex-end;
+.order-tracking.completed .is-complete:after {
+    border-color: #fff;
+    border-width: 0px 3px 3px 0;
+    width: 7px;
+    left: 11px;
+    opacity: 1;
+}
+
+.order-tracking p {
+    color: #A4A4A4;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 0;
+    line-height: 20px;
+}
+
+.order-tracking p span {
+    font-size: 14px;
+}
+
+.order-tracking.completed p {
+    color: #000;
+}
+
+.order-tracking::before {
+    content: '';
+    display: block;
+    height: 3px;
+    width: calc(100% - 40px);
+    background-color: #f7be16;
+    top: 13px;
+    position: absolute;
+    left: calc(-50% + 20px);
+    z-index: 0;
+}
+
+.order-tracking:first-child:before {
+    display: none;
+}
+
+.order-tracking.completed:before {
+    background-color: #27aa80;
 }
 </style>
 
@@ -120,26 +126,27 @@
                                 <!-- <p>Color: <strong>{{ $item->productColorDetails->name ?? 'N/A' }}</strong></p> -->
                                 @endforeach
 
-                                <div class="status-progress-wrap">
-                                    <div class="status-progress-bar-wrap">
-                                        <div style="width:10%;" class="status-progress-bar">
-                                        </div>
-                                    </div>
-                                    <div class="status-wrap">
-                                        Ordered
-                                        <span>21-02-2019</span>
-                                    </div>
-                                    <div class="status-wrap">
-                                        Packed
-                                        <span>21-02-2019</span>
-                                    </div>
-                                    <div class="status-wrap">
-                                        Shipped
-                                        <span>21-02-2019</span>
-                                    </div>
-                                    <div class="status-wrap">
-                                        Delivered
-                                        <span>21-02-2019</span>
+                                <div class="col-12 col-md-10 hh-grayBox pt45 pb20">
+                                    <div class="d-flex">
+                                    <div class="order-tracking {{ in_array($order->status, ['pending', 'shipped', 'delivered']) ? 'completed' : '' }}">
+            <span class="is-complete"></span>
+            <p>Pending<br><span>{{ \Carbon\Carbon::parse($order->created_at)->format('D, M d') }}</span></p>
+        </div>
+
+        <div class="order-tracking {{ in_array($order->status, ['shipped', 'delivered']) ? 'completed' : '' }}">
+            <span class="is-complete"></span>
+            <p>Shipped<br><span>{{ $order->shipped_date ? \Carbon\Carbon::parse($order->shipped_at)->format('D, M d') : '-' }}</span></p>
+        </div>
+
+        <div class="order-tracking {{ $order->status == 'delivered' ? 'completed' : '' }}">
+            <span class="is-complete"></span>
+            <p>Delivered<br><span>{{ $order->delivery_date ? \Carbon\Carbon::parse($order->delivered_at)->format('D, M d') : '-' }}</span></p>
+        </div>
+
+        <div class="order-tracking {{ $order->status == 'cancelled' ? 'completed' : '' }}">
+            <span class="is-complete"></span>
+            <p>Cancelled<br><span>{{ $order->cancelled_date ? \Carbon\Carbon::parse($order->cancelled_at)->format('D, M d') : '-' }}</span></p>
+        </div>
                                     </div>
                                 </div>
                             </div>
@@ -178,3 +185,5 @@
         </ul>
     </div>
 </div> -->
+
+<!--  -->

@@ -1,6 +1,12 @@
 @extends('admin.includes.app')
 @section('content')
 
+<style>
+    p{
+        text-transform: capitalize;
+    }
+</style>
+
 <!--start main wrapper-->
 <main class="main-wrapper">
     <div class="main-content">
@@ -16,87 +22,50 @@
                     </ol>
                 </nav>
             </div>
-            <div class="ms-auto">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Settings</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-                        data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"> <a class="dropdown-item"
-                            href="javascript:;">Action</a>
-                        <a class="dropdown-item" href="javascript:;">Another action</a>
-                        <a class="dropdown-item" href="javascript:;">Something else here</a>
-                        <div class="dropdown-divider"></div> <a class="dropdown-item" href="javascript:;">Separated
-                            link</a>
-                    </div>
-                </div>
-            </div>
         </div>
         <!--end breadcrumb-->
 
-
+        @if ($orderDetails)
         <div class="row">
             <div class="col-12 col-lg-4 d-flex">
                 <div class="card w-100">
                     <div class="card-body">
                         <div class="position-relative">
-                            <img src="assets/images/gallery/18.png" class="img-fluid rounded" alt="">
+                            <img src="{{url('public/admin/assets/images/gallery/18.png')}}" class="img-fluid rounded"
+                                alt="">
                             <div class="position-absolute top-100 start-50 translate-middle">
-                                <img src="assets/images/avatars/02.png" width="100" height="100"
+                                <img src="{{url('public/admin/assets/images/avatars/11.png')}}" width="100" height="100"
                                     class="rounded-circle raised p-1 bg-white" alt="">
                             </div>
                         </div>
+
                         <div class="text-center mt-5 pt-4">
-                            <h4 class="mb-1">Julinee Moree</h4>
-                            <p class="mb-0">Marketing Excutive</p>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center gap-3 my-5">
-                            <a href="javascript:;"
-                                class="wh-48 bg-linkedin text-white rounded-circle d-flex align-items-center justify-content-center"><i
-                                    class="bi bi-linkedin fs-5"></i></a>
-                            <a href="javascript:;"
-                                class="wh-48 bg-dark text-white rounded-circle d-flex align-items-center justify-content-center"><i
-                                    class="bi bi-twitter-x fs-5"></i></a>
-                            <a href="javascript:;"
-                                class="wh-48 bg-facebook text-white rounded-circle d-flex align-items-center justify-content-center"><i
-                                    class="bi bi-facebook fs-5"></i></a>
-                            <a href="javascript:;"
-                                class="wh-48 bg-pinterest text-white rounded-circle d-flex align-items-center justify-content-center"><i
-                                    class="bi bi-youtube fs-5"></i></a>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-around">
-                            <div class="d-flex flex-column gap-2">
-                                <h4 class="mb-0">798</h4>
-                                <p class="mb-0">Posts</p>
-                            </div>
-                            <div class="d-flex flex-column gap-2">
-                                <h4 class="mb-0">48K</h4>
-                                <p class="mb-0">Following</p>
-                            </div>
-                            <div class="d-flex flex-column gap-2">
-                                <h4 class="mb-0">24.3M</h4>
-                                <p class="mb-0">Followers</p>
-                            </div>
+                            <h4 class="mb-1">{{ $orderDetails->user->name }}</h4>
+                            <p class="mb-0">Customer</p>
                         </div>
 
                     </div>
+                    @php
+                    $address = json_decode($orderDetails->address, true);
+                    @endphp
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item border-top">
                             <b>Address</b>
                             <br>
-                            123 Street Name, City, Australia
+                            {{ $address['address'] ?? '-' }}, {{ $address['locality'] ?? '-' }},
+                            {{ $address['city'] ?? '-' }},
+                            {{ $address['state'] ?? '-' }},
+                            {{ $address['country'] ?? '-' }} - {{ $address['pincode'] ?? '-' }}
                         </li>
                         <li class="list-group-item">
                             <b>Email</b>
                             <br>
-                            mail.com
+                            {{ $orderDetails->user->email ?? '-' }}
                         </li>
                         <li class="list-group-item">
                             <b>Phone</b>
                             <br>
-                            Toll Free (123) 472-796
-                            <br>
-                            Mobile : +91-9910XXXX
+                            Mobile : {{ $orderDetails->user->phone ?? '-' }}
                         </li>
                     </ul>
 
@@ -105,311 +74,86 @@
             </div>
 
             <div class="col-12 col-lg-8 d-flex">
-                <div class="card w-100">
+                <div class="card">
                     <div class="card-body">
-                        <h5 class="mb-3">Send Notes to Customer</h5>
-                        <textarea class="form-control" placeholder="write somthing" rows="6" cols="6"></textarea>
-                        <button class="btn btn-filter w-100 mt-3">Add Meesage</button>
-                    </div>
-                    <div class="customer-notes mb-3">
-                        <div class="bg-light mx-3 my-0 rounded-3 p-3">
-                            <div class="notes-item">
-                                <p class="mb-2">It is a long established fact that a reader will be distracted by the
-                                    readable content
-                                    of a page when looking at its layout.
-                                    of letters, as opposed to using 'Content here, content here.</p>
-                                <p class="mb-0 text-end fst-italic text-secondary">10 Apr, 2022</p>
+                        <h5 class="mb-3">Orders ID:-<span class="fw-light ms-2">{{ $orderDetails->id }}</span></h5>
+                        <div class="product-table">
+
+                            @php
+                            $item = $orderDetails->orderItems->first();
+                            $product = $item?->product;
+
+                            $images = json_decode($product->images, true);
+                            $firstImage = $images[0]['images'] ?? null;
+                            @endphp
+
+                            @if($item && $product)
+                            <img src="{{ url('public/product_images/' . $firstImage) }}" alt="{{ $product->name }}"
+                                width="80" height="80" class="rounded border">
+                            @endif
+
+                            <p><strong>Total Order:</strong> {{ $orderDetails->user()->count() }}</p>
+                            <p><strong>Placed On:</strong> {{ $orderDetails->created_at->format('d M Y H:i') }}</p>
+                            <p><strong>Discount Coupon:</strong> {{ $orderDetails->coupon_id ?? 'N/A' }}</p>
+                            <p><strong>Coupon Code:</strong> {{ $orderDetails->coupon_code ?? 'N/A' }}</p>
+                            <p><strong>Discount Got:</strong> {{ $orderDetails->discount ?? 'N/A' }}</p>
+                            <p><strong>Total Amount:</strong> ${{ number_format($orderDetails->total_amount, 2) }}</p>
+
+                            <p><strong>Payment Status:</strong>
+                                @if($orderDetails->payment_status === 'paid')
+                                <span
+                                    class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">
+                                    Paid <i class="bi bi-check2 ms-2"></i>
+                                </span>
+                                @else
+                                <span
+                                    class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">
+                                    Unpaid <i class="bi bi-x ms-2"></i>
+                                </span>
+                                @endif
+                            </p>
+                            <p><strong>Payment Method:</strong> {{ $orderDetails->payment_method }}</p>
+                            
+                            <p><strong>Order Status:</strong> {{ $orderDetails->status }}</p>
+                            <p><strong>Shipping Date:</strong> {{ $orderDetails->shipped_date ?? 'N/A' }}</p>
+                            <p><strong>Delivery Date:</strong>{{ $orderDetails->delivery_date ?? 'N/A' }}</p>
+
+
+                            <h6 class="mt-4">Products:</h6>
+                            <div class="table-responsive white-space-nowrap">
+                                <table class="table align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($orderDetails->orderItems as $item)
+                                        <tr>
+                                            <td>{{ $item->product->title ?? 'N/A' }}</td>
+                                            <td>{{ $item->quantity }}</td>
+                                            <td>${{ number_format($item->price, 2) }}</td>
+                                            <td>${{ number_format($item->price * $item->quantity, 2) }}</td>
+                                            <td>{{ $item->grand_total }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <hr class="border-dotted">
-                            <div class="notes-item">
-                                <p class="mb-2">Various versions have evolved over the years, sometimes</p>
-                                <p class="mb-0 text-end fst-italic text-secondary">15 Apr, 2022</p>
-                            </div>
-                            <hr>
-                            <div class="notes-item">
-                                <p class="mb-2">There are many variations of passages of Lorem Ipsum available, but
-                                    the majority have
-                                    suffered
-                                    alteration in some</p>
-                                <p class="mb-0 text-end fst-italic text-secondary">15 Apr, 2022</p>
-                            </div>
-                            <hr>
-                            <div class="notes-item">
-                                <p class="mb-2">In publishing and graphic design, Lorem ipsum is a placeholder text
-                                    commonly used to
-                                    demonstrate. quae ab illo inventore veritatis et quasi architecto</p>
-                                <p class="mb-0 text-end fst-italic text-secondary">18 Apr, 2022</p>
-                            </div>
-                            <hr>
-                            <div class="notes-item">
-                                <p class="mb-2">Contrary to popular belief, Lorem Ipsum is not simply random text. It
-                                    has roots in a
-                                    piece of classical Latin literature</p>
-                                <p class="mb-0 text-end fst-italic text-secondary">22 Apr, 2022</p>
-                            </div>
-                            <hr>
-                            <div class="notes-item">
-                                <p class="mb-2">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                    accusantium doloremque
-                                    laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et
-                                    quasi architecto
-                                    beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-                                    aspernatur aut odit
-                                    aut fugit, sed quia consequuntur magni dolores</p>
-                                <p class="mb-0 text-end fst-italic text-secondary">22 Apr, 2022</p>
-                            </div>
-                            <hr>
-                            <div class="notes-item">
-                                <p class="mb-2">On the other hand, we denounce with righteous indignation and dislike
-                                    pleasure of the
-                                    moment, so blinded by desire, that they cannot foresee the pain and trouble that
-                                    are bound to ensue;
-                                    and equal blame belongs to those</p>
-                                <p class="mb-0 text-end fst-italic text-secondary">22 Apr, 2022</p>
-                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
         <!--end row-->
 
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="mb-3">Orders<span class="fw-light ms-2">(98)</span></h5>
-                <div class="product-table">
-                    <div class="table-responsive white-space-nowrap">
-                        <table class="table align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Order</th>
-                                    <th>Expense</th>
-                                    <th>Payment Status</th>
-                                    <th>Order Status</th>
-                                    <th>Delivery Status</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#2453</td>
-                                    <td>$865</td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Paid<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-toggle-nocaret"
-                                                type="button" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-eye-fill me-2"></i>View</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-box-arrow-right me-2"></i>Export</a></li>
-                                                <li class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="javascript:;"><i
-                                                            class="bi bi-trash-fill me-2"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#7845</td>
-                                    <td>$427</td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-primary-subtle text-primary rounded border border-primary-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-toggle-nocaret"
-                                                type="button" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-eye-fill me-2"></i>View</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-box-arrow-right me-2"></i>Export</a></li>
-                                                <li class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="javascript:;"><i
-                                                            class="bi bi-trash-fill me-2"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#9635</td>
-                                    <td>$123</td>
-                                    <td><span
-                                            class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Pending<i
-                                                class="bi bi-info-circle ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-toggle-nocaret"
-                                                type="button" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-eye-fill me-2"></i>View</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-box-arrow-right me-2"></i>Export</a></li>
-                                                <li class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="javascript:;"><i
-                                                            class="bi bi-trash-fill me-2"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#2415</td>
-                                    <td>$986</td>
-                                    <td><span
-                                            class="lable-table bg-primary-subtle text-primary rounded border border-primary-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2-all ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Pending<i
-                                                class="bi bi-info-circle ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-toggle-nocaret"
-                                                type="button" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-eye-fill me-2"></i>View</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-box-arrow-right me-2"></i>Export</a></li>
-                                                <li class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="javascript:;"><i
-                                                            class="bi bi-trash-fill me-2"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#3526</td>
-                                    <td>$104</td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-toggle-nocaret"
-                                                type="button" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-eye-fill me-2"></i>View</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-box-arrow-right me-2"></i>Export</a></li>
-                                                <li class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="javascript:;"><i
-                                                            class="bi bi-trash-fill me-2"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#7845</td>
-                                    <td>$368</td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Paid<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-toggle-nocaret"
-                                                type="button" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-eye-fill me-2"></i>View</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-box-arrow-right me-2"></i>Export</a></li>
-                                                <li class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="javascript:;"><i
-                                                            class="bi bi-trash-fill me-2"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#256</td>
-                                    <td>$865</td>
-                                    <td><span
-                                            class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Pending<i
-                                                class="bi bi-info-circle ms-2"></i></span></td>
-                                    <td><span
-                                            class="lable-table bg-primary-subtle text-primary rounded border border-primary-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2-all ms-2"></i></span></td>
-                                    <td>Cash on delivery</td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm dropdown-toggle dropdown-toggle-nocaret"
-                                                type="button" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-eye-fill me-2"></i>View</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="javascript:;"><i
-                                                            class="bi bi-box-arrow-right me-2"></i>Export</a></li>
-                                                <li class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="javascript:;"><i
-                                                            class="bi bi-trash-fill me-2"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="card mt-4">
             <div class="card-body">
@@ -555,164 +299,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="mb-3 fw-bold">Ratings & Reviews<span class="fw-light ms-2">(86)</span></h5>
-                <div class="product-table">
-                    <div class="table-responsive white-space-nowrap">
-                        <table class="table align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Product Name</th>
-                                    <th>Rating</th>
-                                    <th>Review</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <a href="javascript:;" class="product-title">Women Pink Floral Printed
-                                            Panelled Pure Cotton</a>
-                                    </td>
-                                    <td>
-                                        <div class="product-rating text-warning">
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                    </td>
-                                    <td class="review-desc">This is very awesome product. It has good quality. I
-                                        suggest everyone to use this
-                                        product. It is available at very low amount.</td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="javascript:;" class="product-title">Women Pink Floral Printed
-                                            Panelled Pure Cotton</a>
-                                    </td>
-                                    <td>
-                                        <div class="product-rating text-warning">
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                    </td>
-                                    <td class="review-desc">This is very awesome product. It has good quality. I
-                                        suggest everyone to use this
-                                        product. It is available at very low amount.</td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="javascript:;" class="product-title">Women Pink Floral Printed
-                                            Panelled Pure Cotton</a>
-                                    </td>
-                                    <td>
-                                        <div class="product-rating text-warning">
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                    </td>
-                                    <td class="review-desc">This is very awesome product. It has good quality. I
-                                        suggest everyone to use this
-                                        product. It is available at very low amount.</td>
-                                    <td><span
-                                            class="lable-table bg-primary-subtle text-primary rounded border border-primary-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2-all ms-2"></i></span></td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="javascript:;" class="product-title">Women Pink Floral Printed
-                                            Panelled Pure Cotton</a>
-                                    </td>
-                                    <td>
-                                        <div class="product-rating text-warning">
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                    </td>
-                                    <td class="review-desc">This is very awesome product. It has good quality. I
-                                        suggest everyone to use this
-                                        product. It is available at very low amount.</td>
-                                    <td><span
-                                            class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Completed<i
-                                                class="bi bi-check2 ms-2"></i></span></td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="javascript:;" class="product-title">Women Pink Floral Printed
-                                            Panelled Pure Cotton</a>
-                                    </td>
-                                    <td>
-                                        <div class="product-rating text-warning">
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                    </td>
-                                    <td class="review-desc">This is very awesome product. It has good quality. I
-                                        suggest everyone to use this
-                                        product. It is available at very low amount.</td>
-                                    <td><span
-                                            class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Failed<i
-                                                class="bi bi-x-lg ms-2"></i></span></td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="javascript:;" class="product-title">Women Pink Floral Printed
-                                            Panelled Pure Cotton</a>
-                                    </td>
-                                    <td>
-                                        <div class="product-rating text-warning">
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-half"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                    </td>
-                                    <td class="review-desc">This is very awesome product. It has good quality. I
-                                        suggest everyone to use this
-                                        product. It is available at very low amount.</td>
-                                    <td><span
-                                            class="lable-table bg-warning-subtle text-warning rounded border border-warning-subtle font-text2 fw-bold">Pending<i
-                                                class="bi bi-info-circle ms-2"></i></span></td>
-                                    <td>Jun 12, 12:56 PM</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
     </div>
 </main>
 <!--end main wrapper-->

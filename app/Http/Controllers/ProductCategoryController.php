@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ColorCode;
+use App\Models\DiscountCoupon;
 use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
-    public function allProducts(){
+    public function allProducts(Request $request){
         $categories = Category::where('status', 'Active')
         ->with(['subcategories' => function ($query) {
             $query->where('status', 'Active')->with('viewCategory');
@@ -19,10 +20,18 @@ class ProductCategoryController extends Controller
 
         $brands = Brand::where('status','Active')->get();
 
-        $products = Product::where('status','Active')->get();
+        $products = Product::where('status','Active')->paginate(9);
+
+        if($request->ajax()) {
+            return response()->json([
+                'products' => view('partial-product-list', compact('products'))->render(),
+                'pagination' => view('partial-product-pagination', compact('products'))->render()
+            ]);
+        }
 
         $colors = ColorCode::where('status','Active')->get();
-        return view('products',compact('products','categories','brands','colors'));
+        $deals = DiscountCoupon::where('deal_of_week', 1)->with('product.firstImage')->get();
+        return view('products',compact('products','categories','brands','colors','deals'));
     }
 
 
@@ -32,7 +41,8 @@ class ProductCategoryController extends Controller
             $product = Product::where('slug', $slug)
                 ->with(['images', 'categoryName']) // Fetch category relation
                 ->firstOrFail();
-            return view('productDetails', compact('product'));
+                $deals = DiscountCoupon::where('deal_of_week', 1)->with('product.firstImage')->get();
+            return view('productDetails', compact('product','deals'));
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => 'Product not found: ' . $e->getMessage()]);
         }
@@ -104,14 +114,18 @@ class ProductCategoryController extends Controller
     
 
     public function filterProductsByPrice(Request $request)
-{
-    $minPrice = $request->min_price;
-    $maxPrice = $request->max_price;
-
-    $products = Product::whereBetween('new_price', [$minPrice, $maxPrice])->get();
-
-    return view('filtered_products', compact('products'))->render();
-}
+    {
+        $minPrice = (float) $request->min_price;
+        $maxPrice = (float) $request->max_price;
+    
+        $products = Product::all()->filter(function ($product) use ($minPrice, $maxPrice) {
+            $numericPrice = (float) str_replace(',', '', $product->new_price);
+    
+            return $numericPrice >= $minPrice && $numericPrice <= $maxPrice;
+        });
+    
+        return view('filtered_products', compact('products'))->render();
+    }
 
     
     

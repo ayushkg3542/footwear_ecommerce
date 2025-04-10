@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\DiscountCoupon;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Session;
@@ -65,7 +66,11 @@ class CartController extends Controller
 
     public function cart()
     {
-        $cartProducts = Cart::where('status', 'pending')->with('product')->get();
+        $cartProducts = Cart::where('status', 'pending')
+            ->where('user_id', auth()->id())
+            ->with('product')
+            ->get();
+    
         return view('cart', compact('cartProducts'));
     }
 
@@ -200,16 +205,76 @@ class CartController extends Controller
     
 
     public function checkoutStore(Request $request)
-{
-    $orderDetails = [
-        'products' => $request->cartItems, // Ensure cart items are passed in the request
-        'subtotal' => $request->subtotal,
-        'shipping' => 50,
-        'total' => $request->subtotal + 50
-    ];
+    {
+        $orderDetails = [
+            'products' => $request->cartItems, // Ensure cart items are passed in the request
+            'subtotal' => $request->subtotal,
+            'shipping' => 50,
+            'total' => $request->subtotal + 50
+        ];
 
-    Session::put('order_details', $orderDetails);
-    return response()->json(['message' => 'Order stored successfully']);
+        Session::put('order_details', $orderDetails);
+        return response()->json(['message' => 'Order stored successfully']);
+    }
+
+    public function applyCoupon(Request $request){
+        $code = strtoupper($request->coupon_code);
+
+        if ($code !== 'SHOP123') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid coupon code.'
+            ]);
+        }
+    
+        // Get the first active coupon from the database
+        $coupon = DiscountCoupon::where('status', 'Active')
+            ->whereDate('start_date', '<=', now())
+            ->whereDate('end_date', '>=', now())
+            ->first();
+    
+        if (!$coupon) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Coupon not available currently.'
+            ]);
+        }
+    
+        // Example: Get cart subtotal (adjust this logic based on your actual cart data)
+        $cartItems = \DB::table('carts')
+            ->join('products', 'carts.product_id', '=', 'products.id')
+            ->where('carts.user_id', auth()->id())
+            ->select('products.new_price', 'carts.qty')
+            ->get();
+    
+        $subtotal = $cartItems->sum(fn($item) => $item->new_price * $item->qty);
+    
+        $discountPercent = (float) $coupon->{'discount_percentage'};
+        $discountAmount = ($subtotal * $discountPercent) / 100;
+    
+        $maxAmount = (float) ($coupon->{'max_amount'} ?? $coupon->{'upto_amount'});
+        $finalDiscount = min($discountAmount, $maxAmount);
+    
+        $shipping = 50;
+        $total = $subtotal - $finalDiscount + $shipping;
+    
+        // Store in session
+        session()->put('discount', $finalDiscount);
+        session()->put('applied_coupon', $code);
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Coupon applied successfully!',
+            'discount' => number_format($finalDiscount, 2),
+            'total' => number_format($total, 2)
+        ]);
+    }
+
+    public function removeCoupon()
+{
+    session()->forget(['applied_coupon', 'discount']);
+    return response()->json(['success' => true, 'message' => 'Coupon removed successfully.']);
 }
     
 }
+// 

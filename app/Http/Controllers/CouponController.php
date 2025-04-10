@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DiscountCoupon;
+use App\Models\Orders;
 use App\Models\Product;
 use Auth;
 use Illuminate\Http\Request;
@@ -11,12 +12,16 @@ class CouponController extends Controller
 {
     public function couponList(){
         $adminuser = Auth::guard('admin')->user();
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
         $coupon = DiscountCoupon::get();
-        return view('admin.manageCoupon',compact('adminuser','coupon'));
+        return view('admin.manageCoupon',compact('adminuser','coupon','todayOrders','orderCount'));
     }
 
     public function manageCoupon(Request $request, $id = null){
         $adminuser = Auth::guard('admin')->user();
+        $todayOrders = Orders::whereDate('created_at', today())->with('orderItems.product')->get();
+        $orderCount = $todayOrders->count(); 
 
         $products = Product::where('status','Active')->get();
         $coupon = null;
@@ -24,7 +29,7 @@ class CouponController extends Controller
             $coupon = DiscountCoupon::with('product')->find($id);
         }
 
-        return view('admin.addCoupon',compact('adminuser','products','coupon'));
+        return view('admin.addCoupon',compact('adminuser','products','coupon','todayOrders','orderCount'));
     }
 
 
@@ -81,6 +86,7 @@ class CouponController extends Controller
             $discount->discount_percentage = $discountpercentage;
             $discount->upto_amount = $request->upto_amount;
             $discount->max_amount = $request->max_amount;
+            $discount->deal_of_week = $request->deal_of_week;
             $discount->status = $request->status;
             $discount->save();
 

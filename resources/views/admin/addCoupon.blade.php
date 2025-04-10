@@ -25,6 +25,21 @@
                         <input type="hidden" name="discount_id" value="{{ $coupon->id }}">
                         @endif
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <div class="form-check form-check-danger">
+                                        <input type="hidden" name="deal_of_week" value="0">
+
+                                        <!-- Actual checkbox (overrides value to 1 if checked) -->
+                                        <input class="form-check-input" type="checkbox" value="1" id="deal_of_week"
+                                            name="deal_of_week"
+                                            {{ isset($coupon) && $coupon->deal_of_week == 1 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="deal_of_week">
+                                            <b>Mark This Product as Deal of the Week</b>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="product_id" class="form-label">Select Product<span
@@ -57,7 +72,8 @@
                             <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="discount_percentage" class="form-label">Discount Percentage</label>
-                                    <input type="number" min="0" max="100" value="{{ isset($coupon) ? $coupon->discount_percentage : '' }}"
+                                    <input type="number" min="0" max="100"
+                                        value="{{ isset($coupon) ? $coupon->discount_percentage : '' }}"
                                         name="discount_percentage" class="form-control" id="discount_percentage">
                                 </div>
                             </div>
@@ -88,9 +104,11 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-md-1 d-flex align-items-center">
                                 <div class="repeater-remove-btn">
-                                    <button type="submit" class="btn btn-danger btn-sm remove-btn px-3 py-2 discountsubmitbtn">
+                                    <button type="submit"
+                                        class="btn btn-danger btn-sm remove-btn px-3 py-2 discountsubmitbtn">
                                         Submit
                                     </button>
                                 </div>

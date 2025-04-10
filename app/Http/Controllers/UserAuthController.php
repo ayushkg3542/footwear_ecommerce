@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Orders;
 use App\Models\UserAddress;
 use Auth;
+use Illuminate\Support\Str;
 use Exception;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Validator;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Mail;
 
 
 class UserAuthController extends Controller
@@ -59,28 +60,36 @@ class UserAuthController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required',
+            'phone' => 'required',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
         ]);
 
         if ($validator->passes()) {
+            $verificationToken = Str::random(64);
+
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->phone = $request->phone;
             $user->password = bcrypt($request->password); 
             $user->role = 3; 
+            $user->remember_token = $verificationToken;
             $user->save();
+
+            Mail::to($user->email)->send(new \App\Mail\VerifyEmail($user));
     
             session([
                 'user_id' => $user->id,
                 'user_name' => $user->name,
                 'user_email' => $user->email,
+                'user_phone' => $user->phone,
                 'user_role' => $user->role,
             ]);
     
             return response()->json([
                 'status' => 'success',
-                'message' => 'Registration is successful',
+                'message' => 'Registration is successful! Please verify your email.',
                 'registerid' => $user->id,
             ]);
         } else {
@@ -218,6 +227,24 @@ class UserAuthController extends Controller
         return response()->json(['success'=> true,'message' => 'Address updated successfully']);
     }
 
+    public function verifyEmail($token){
+        $user = User::where('remember_token', $token)->first();
+
+        if(!$user){
+            return "Invalid or expired verification link.";
+        }
+
+        $user->email_verified_at = now();
+        $user->remember_token = null;
+        $user->save();
+
+        return redirect()->route('home')->with('message','Email verified successfully! You can now log in.');
+    }
+
+    public function forgetPassword(){
+        return view('account.forgetPassword');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -227,7 +254,7 @@ class UserAuthController extends Controller
         return redirect()->route('home')->with('message', 'You have been logged out successfully.');
     }
 
-
+// 
 
 
 }

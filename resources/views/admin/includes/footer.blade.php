@@ -27,7 +27,7 @@
                     <p class="mb-0 order-price">₹{{ number_format($item->product->new_price, 2) }}</p>
                 </div>
                 <div class="d-flex">
-                    <a class="order-view text-dark" href="{{ route('order.details') }}">
+                    <a class="order-view text-dark" href="{{ route('order.details', ['order' => encrypt($order->id)]) }}">
                         <span class="material-icons-outlined">visibility</span>
                     </a>
                 </div>

@@ -2085,11 +2085,14 @@ h6 {
 
 .single-product {
   margin-bottom: 50px;
+  height: 275px;
+    width: auto;
 }
 
 .single-product img {
   margin-bottom: 20px;
   width: 100%;
+  height: 100%;
 }
 
 .single-product .product-details h6 {
@@ -2740,6 +2743,13 @@ label {
   color: #fff;
 }
 
+#applied-code{
+  background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);
+  color: #fff;
+  border-radius: 3px;
+  padding: 6px;
+}
+
 .view-btn:hover i {
   color: #fff;
 }
@@ -2747,6 +2757,7 @@ label {
 .filter-bar {
   padding: 0px 20px 10px 20px;
   background: #828bb3;
+  margin: 100px 0;
 }
 
 .filter-bar a,
@@ -4126,6 +4137,40 @@ label {
   padding-left: 18px;
 }
 
+.discount{
+  height: 50px;
+  width: 50px;
+  background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);
+  position: absolute;
+  right: 5px;
+  border-radius: 100%;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  top: 5px;
+  /* border-style: outset; */
+  box-shadow: 1px 1px 4px 1px #d8d8d899;
+}
+.deal_img{
+  height: 95px;
+  width: auto;
+}
+
+.deal_img > img{
+  height: 100%;
+}
+
+.bold-text{
+  background: #ffdd99;
+  padding: 3px;
+  border-radius: 3px;
+  color: red !important;
+}
+
 @media (min-width: 767px) {
   .order_d_inner .details_item .list {
     margin-bottom: 30px;
@@ -4264,7 +4309,7 @@ label {
   box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.07);
   height: 100%;
   text-align: center;
-  padding-top: 115px;
+  padding-top: 60px;
 }
 
 .login_form_inner h3 {

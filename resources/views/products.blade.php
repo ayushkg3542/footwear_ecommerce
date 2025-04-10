@@ -112,41 +112,9 @@
             @if(request()->has('search') && request()->search != "")
             <h4 class="text-end">Search Result for: {{ request()->search }}</h4>
             @endif
-            <section class="lattest-product-area pb-40 category-list">
-                <div class="row">
-                    @forelse ($products as $item)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-product">
-                            <a href="{{ route('productDetails', ['slug' => $item->slug]) }}">
-                                <img class="img-fluid"
-                                    src="{{ url('public/product_images/' . ($item->images->first()->images ?? 'default.png')) }}"
-                                    alt="{{ $item->slug }}">
-                            </a>
-                            <div class="product-details">
-                                <h6>{{ $item->title }}</h6>
-                                <div class="price">
-                                    <h6>₹{{ $item->new_price }}</h6>
-                                    <h6 class="l-through">₹{{ $item->old_price }}</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="javascript:void(0)" data-id="{{ $item->id }}"
-                                        class="social-info add-to-cart">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="javascript:void(0)" data-id="{{ $item->id }}"
-                                        class="social-info add-to-wishlist">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @empty
-                    <p class="text-center w-100">No Product found</p>
-                    @endforelse
+            <section class="lattest-product-area pb-40 ">
+                <div class="row product-list" style="row-gap: 85px;">
+                   @include('partial-product-list')
                     <!-- single product -->
                 </div>
             </section>
@@ -154,14 +122,8 @@
             <!-- Start Filter Bar -->
             <div class="filter-bar d-flex flex-wrap align-items-center">
                 <div class="sorting mr-auto"></div>
-                <div class="pagination">
-                    <a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-                    <a href="#" class="active">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-                    <a href="#">6</a>
-                    <a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                <div class="pagination custom-pagination">
+                @include('partial-product-pagination', ['products' => $products])
                 </div>
             </div>
             <!-- End Filter Bar -->
@@ -231,8 +193,9 @@ $(document).ready(function() {
         });
     });
 
+    // 
     var minPrice = 0;
-    var maxPrice = 1000000;
+    var maxPrice = 100000;
 
     $("#price-range").slider({
         range: true,
@@ -267,6 +230,20 @@ $(document).ready(function() {
             }
         });
     }
+});
+$(document).on('click', '.custom-pagination a', function (e) {
+    e.preventDefault();
+    var page = $(this).data('page');
+    if (!page) return;
+
+    $.ajax({
+        url: '?page=' + page,
+        type: 'GET',
+        success: function (res) {
+            $('.product-list').html(res.products);
+            $('.custom-pagination').html(res.pagination);
+        }
+    });
 });
 </script>
 

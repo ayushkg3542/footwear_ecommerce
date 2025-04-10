@@ -168,9 +168,10 @@ function removeProduct(cartId, row) {
             if (response.status === 'success') {
                 row.fadeOut(300, function() {
                     $(this).remove();
+                    updateSubtotal();
                 });
 
-                updateSubtotal();
+                
                 updateCartCount(response.cart_count);
                 notyf.success(response.message);
             } else {

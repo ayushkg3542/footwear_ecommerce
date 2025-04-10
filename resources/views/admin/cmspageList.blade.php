@@ -50,10 +50,19 @@
                         </tr>
                     </thead>
                     <tbody class="tableBody">
-
+                        @foreach ($cmspages as $key=>$pagedata)
                         <tr>
-
+                            <td>{{ $key+1 }}</td>
+                            <td>{{ $pagedata->title }}</td>
+                            <td>{{ $pagedata->url }}</td>
+                            <td>{{ $pagedata->meta_title }}</td>
+                            <td>{{ $pagedata->meta_keywords }}</td>
+                            <td>{{ $pagedata->status }}</td>
+                            <td>
+                            <a href="{{ route('managecms', $pagedata->id) }}" class="btn btn-success btn-sm">Edit</a>
+                            </td>
                         </tr>
+                        @endforeach
 
                     </tbody>
 

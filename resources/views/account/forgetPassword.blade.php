@@ -75,10 +75,10 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Login/Register</h1>
+                    <h1>Forget Password</h1>
                     <nav class="d-flex align-items-center">
                         <a href="#">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="#">Login/Register</a>
+                        <a href="#">Forget Password</a>
                     </nav>
                 </div>
             </div>
@@ -117,33 +117,17 @@
                             <div class="line" style="margin-left: 14px;"></div>
                         </div>
                         <h3>Enter Credentials</h3>
-                        <form class="row login_form" action="{{ route('account.authenticate') }}" method="post"
+                        <form class="row login_form" action="" method="post"
                             id="loginForm" novalidate="novalidate">
                             @csrf
                             <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Username"
                                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
-                                    @error('name')
-                                    <p class="invalidd-feedback">{{$message}}</p>
-                                    @enderror
+                                    
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="password" name="password"
-                                    placeholder="Password" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Password'" value="{{ old('password') }}">
-                                    @error('password')
-                                    <p class="invalidd-feedback">{{$message}}</p>
-                                    @enderror
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <div class="creat_account">
-                                    <input type="checkbox" id="f-option2" name="selector">
-                                    <label for="f-option2">Keep me logged in</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Log In</button>
-                                <a href="{{ route('account.forgetPassword') }}">Forgot Password?</a>
+                                <button type="submit" value="submit" class="primary-btn">Submit</button>
+                                
                             </div>
                         </form>
                     </div>

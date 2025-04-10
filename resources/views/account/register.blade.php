@@ -22,6 +22,7 @@
     <!-- <link rel="stylesheet" href="{{url('public/front/css/nouislider.min.css')}}"> -->
     <link rel="stylesheet" href="{{url('public/front/css/main.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -63,6 +64,19 @@
     text-align: left !important;
     color: red;
 }
+
+#loader {
+    position: absolute;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>
 
 <body>
@@ -103,7 +117,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="login_form_inner">
+                    <div class="login_form_inner position-relative">
                         <h3>Login with Google</h3>
                         <a href="{{ route('google.login') }}" class="google_link"><img
                                 src="{{ url('public/admin/assets/images/apps/05.png') }}" width="20"
@@ -128,6 +142,10 @@
                                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
                             </div>
                             <div class="col-md-12 form-group">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number"
+                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'">
+                            </div>
+                            <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" id="password" name="password"
                                     placeholder="Password" onfocus="this.placeholder = ''"
                                     onblur="this.placeholder = 'Password'">
@@ -144,10 +162,15 @@
                                 </div>
                             </div>
                             <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Log In</button>
-                                <a href="#">Forgot Password?</a>
+                                <button type="submit" value="submit" class="primary-btn">Sign Up</button>
+                                <a href="#"></a>
                             </div>
                         </form>
+                        <div id="loader" style="display:none;">
+                            <div class="spinner-border text-warning" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,6 +178,8 @@
     </section>
     <!--================End Login Box Area =================-->
     @include('includes.footer')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script>
     $(document).ready(function() {
@@ -166,6 +191,12 @@
                 email: {
                     required: true,
                     email: true
+                },
+                phone: {
+                    required: true,
+                    number: true,
+                    maxlength: 10,
+                    minlength:10,
                 },
                 password: {
                     required: true,
@@ -184,6 +215,12 @@
                     required: "Please enter your email",
                     email: "Please enter a valid email address"
                 },
+                phone: {
+                    required: "Please enter your phone number",
+                    number: "Please enter a valid phone number",
+                    maxlength: "Number cannot be more then 10 digit",
+                    minlength: "Number must be 10 digit",
+                },
                 password: {
                     required: "Please enter your password",
                     minlength: "Password must be at least 6 characters"
@@ -200,6 +237,8 @@
             },
             submitHandler: function(form) {
                 $(".submitButton").prop("disabled", true);
+                $("#loader").show();
+
                 var formData = new FormData(form);
                 $.ajaxSetup({
                     headers: {
@@ -213,11 +252,20 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+                        $("#loader").hide();
+                        $(".submitButton").prop("disabled", false);
+
                         if (response.status === "success") {
-                            toastr.success(response.message, 'Success', {
-                                timeOut: 3000
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message,
+                                timer: 3000,
+                                showConfirmButton: true
+                            }).then(() => {
+                                window.location.href =
+                                    "{{ route('account.login') }}";
                             });
-                            window.location.href = "{{ route('account.login') }}";
                         } else {
                             toastr.error(response.message, 'Error', {
                                 timeOut: 3000
@@ -225,8 +273,9 @@
                         }
                     },
                     error: function(xhr) {
-                        console.log(xhr.responseText);
+                        $("#loader").hide(); // Hide loader
                         $(".submitButton").prop("disabled", false);
+                        console.log(xhr.responseText);
                     }
                 });
             }

@@ -26,9 +26,25 @@
             <div class="check_title">
                 <h2>Have a coupon?</h2>
             </div>
-            <input type="text" placeholder="Enter coupon code">
-            <a class="tp_btn" href="#">Apply Coupon</a>
+
+            @php
+            $appliedCoupon = session('applied_coupon');
+            $discount = session('discount') ?? 0;
+            @endphp
+
+            @if ($appliedCoupon)
+            <div class="my-3 gap-3">
+                <strong>Applied Coupon:</strong> <span id="applied-code">{{ $appliedCoupon }}</span>
+                <button type="button" class="btn btn-sm btn-danger" id="removeCouponBtn" onclick="removeCouponBtn()"><i class="bi bi-trash"></i></button>
+            </div>
+            @else
+            <input type="text" id="coupon_code" placeholder="Enter coupon code">
+            <a class="tp_btn" id="applyCouponBtn" href="javascript:void(0)">Apply Coupon</a>
+            <p id="coupon-message" style="margin-top: 10px;"></p>
+            @endif
         </div>
+
+
         <form class="checkout_form" action="javascript:void(0)" method="post" novalidate="novalidate">
             <div class="billing_details">
                 <div class="row">
@@ -59,96 +75,109 @@
                                 <select name="state" id="state" class="form-control">
                                     <option value="">Select State</option>
                                     <option value="Andhra Pradesh"
-                                        {{ $address->state == 'Andhra Pradesh' ? 'selected' : ''}}>
-                                        Andhra Pradesh</option>
+                                        {{ isset($address) && $address->state == 'Andhra Pradesh' ? 'selected' : '' }}>
+                                        Andhra Pradesh
+                                    </option>
                                     <option value="Arunachal Pradesh"
-                                        {{ $address->state == 'Arunachal Pradesh' ? 'selected' : ''}}>
+                                        {{ isset($address) && $address->state == 'Arunachal Pradesh' ? 'selected' : ''}}>
                                         Arunachal Pradesh</option>
-                                    <option value="Assam" {{ $address->state == 'Assam' ? 'selected' : ''}}>Assam
-                                    </option>
-                                    <option value="Bihar" {{ $address->state == 'Bihar' ? 'selected' : ''}}>Bihar
-                                    </option>
+                                    <option value="Assam"
+                                        {{ isset($address) && $address->state == 'Assam' ? 'selected' : ''}}>Assam</option>
+                                    <option value="Bihar"
+                                        {{ isset($address) && $address->state == 'Bihar' ? 'selected' : ''}}>Bihar</option>
                                     <option value="Chhattisgarh"
-                                        {{ $address->state == 'Chhattisgarh' ? 'selected' : ''}}>
+                                        {{ isset($address) && $address->state == 'Chhattisgarh' ? 'selected' : ''}}>
                                         Chhattisgarh</option>
-                                    <option value="Gujarat" {{ $address->state == 'Gujarat' ? 'selected' : ''}}>Gujarat
+                                    <option value="Gujarat"
+                                        {{ isset($address) && $address->state == 'Gujarat' ? 'selected' : ''}}>Gujarat
                                     </option>
-                                    <option value="Haryana" {{ $address->state == 'Haryana' ? 'selected' : ''}}>Haryana
+                                    <option value="Haryana"
+                                        {{ isset($address) && $address->state == 'Haryana' ? 'selected' : ''}}>Haryana
                                     </option>
                                     <option value="Himachal Pradesh"
-                                        {{ $address->state == 'Himachal Pradesh' ? 'selected' : ''}}>
+                                        {{ isset($address) && $address->state == 'Himachal Pradesh' ? 'selected' : ''}}>
                                         Himachal Pradesh</option>
                                     <option value="Jammu and Kashmir"
-                                        {{ $address->state == 'Jammu and Kashmir' ? 'selected' : ''}}>
+                                        {{ isset($address) && $address->state == 'Jammu and Kashmir' ? 'selected' : ''}}>
                                         Jammu and Kashmir</option>
-                                    <option value="Goa" {{ $address->state == 'Goa' ? 'selected' : ''}}>
+                                    <option value="Goa" {{ isset($address) && $address->state == 'Goa' ? 'selected' : ''}}>
                                         Goa</option>
-                                    <option value="Jharkhand" {{ $address->state == 'Jharkhand' ? 'selected' : ''}}>
-                                        Jharkhand
+                                    <option value="Jharkhand"
+                                        {{ isset($address) && $address->state == 'Jharkhand' ? 'selected' : ''}}>Jharkhand
                                     </option>
-                                    <option value="Karnataka" {{ $address->state == 'Karnataka' ? 'selected' : ''}}>
-                                        Karnataka
+                                    <option value="Karnataka"
+                                        {{ isset($address) && $address->state == 'Karnataka' ? 'selected' : ''}}>Karnataka
                                     </option>
-                                    <option value="Kerala" {{ $address->state == 'Kerala' ? 'selected' : ''}}>Kerala
+                                    <option value="Kerala"
+                                        {{ isset($address) && $address->state == 'Kerala' ? 'selected' : ''}}>Kerala
                                     </option>
                                     <option value="Madhya Pradesh"
-                                        {{ $address->state == 'Madhya Pradesh' ? 'selected' : ''}}>
+                                        {{ isset($address) && $address->state == 'Madhya Pradesh' ? 'selected' : ''}}>
                                         Madhya Pradesh</option>
-                                    <option value="Maharashtra" {{ $address->state == 'Maharashtra' ? 'selected' : ''}}>
+                                    <option value="Maharashtra"
+                                        {{ isset($address) && $address->state == 'Maharashtra' ? 'selected' : ''}}>
                                         Maharashtra</option>
-                                    <option value="Manipur" {{ $address->state == 'Manipur' ? 'selected' : ''}}>Manipur
+                                    <option value="Manipur"
+                                        {{ isset($address) && $address->state == 'Manipur' ? 'selected' : ''}}>Manipur
                                     </option>
-                                    <option value="Meghalaya" {{ $address->state == 'Meghalaya' ? 'selected' : ''}}>
-                                        Meghalaya
+                                    <option value="Meghalaya"
+                                        {{ isset($address) && $address->state == 'Meghalaya' ? 'selected' : ''}}>Meghalaya
                                     </option>
-                                    <option value="Mizoram" {{ $address->state == 'Mizoram' ? 'selected' : ''}}>Mizoram
+                                    <option value="Mizoram"
+                                        {{ isset($address) && $address->state == 'Mizoram' ? 'selected' : ''}}>Mizoram
                                     </option>
-                                    <option value="Nagaland" {{ $address->state == 'Nagaland' ? 'selected' : ''}}>
-                                        Nagaland
+                                    <option value="Nagaland"
+                                        {{ isset($address) && $address->state == 'Nagaland' ? 'selected' : ''}}>Nagaland
                                     </option>
-                                    <option value="Odisha" {{ $address->state == 'Odisha' ? 'selected' : ''}}>Odisha
+                                    <option value="Odisha"
+                                        {{ isset($address) && $address->state == 'Odisha' ? 'selected' : ''}}>Odisha
                                     </option>
-                                    <option value="Punjab" {{ $address->state == 'Punjab' ? 'selected' : ''}}>Punjab
+                                    <option value="Punjab"
+                                        {{ isset($address) && $address->state == 'Punjab' ? 'selected' : ''}}>Punjab
                                     </option>
-                                    <option value="Rajasthan" {{ $address->state == 'Rajasthan' ? 'selected' : ''}}>
-                                        Rajasthan
+                                    <option value="Rajasthan"
+                                        {{ isset($address) && $address->state == 'Rajasthan' ? 'selected' : ''}}>Rajasthan
                                     </option>
-                                    <option value="Sikkim" {{ $address->state == 'Sikkim' ? 'selected' : ''}}>Sikkim
+                                    <option value="Sikkim"
+                                        {{ isset($address) && $address->state == 'Sikkim' ? 'selected' : ''}}>Sikkim
                                     </option>
-                                    <option value="Tamil Nadu" {{ $address->state == 'Tamil Nadu' ? 'selected' : ''}}>
-                                        Tamil
+                                    <option value="Tamil Nadu"
+                                        {{ isset($address) && $address->state == 'Tamil Nadu' ? 'selected' : ''}}>Tamil
                                         Nadu</option>
-                                    <option value="Telangana" {{ $address->state == 'Telangana' ? 'selected' : ''}}>
-                                        Telangana
+                                    <option value="Telangana"
+                                        {{ isset($address) && $address->state == 'Telangana' ? 'selected' : ''}}>Telangana
                                     </option>
-                                    <option value="Tripura" {{ $address->state == 'Tripura' ? 'selected' : ''}}>Tripura
+                                    <option value="Tripura"
+                                        {{ isset($address) && $address->state == 'Tripura' ? 'selected' : ''}}>Tripura
                                     </option>
-                                    <option value="Uttarakhand" {{ $address->state == 'Uttarakhand' ? 'selected' : ''}}>
+                                    <option value="Uttarakhand"
+                                        {{ isset($address) && $address->state == 'Uttarakhand' ? 'selected' : ''}}>
                                         Uttarakhand</option>
                                     <option value="Uttar Pradesh"
-                                        {{ $address->state == 'Uttar Pradesh' ? 'selected' : ''}}>
-                                        Uttar
+                                        {{ isset($address) && $address->state == 'Uttar Pradesh' ? 'selected' : ''}}>Uttar
                                         Pradesh</option>
-                                    <option value="West Bengal" {{ $address->state == 'West Bengal' ? 'selected' : ''}}>
-                                        West
+                                    <option value="West Bengal"
+                                        {{ isset($address) && $address->state == 'West Bengal' ? 'selected' : ''}}>West
                                         Bengal</option>
                                     <option value="Andaman and Nicobar Islands"
-                                        {{ $address->state == 'Andaman and Nicobar Islands' ? 'selected' : ''}}>
+                                        {{ isset($address) && $address->state == 'Andaman and Nicobar Islands' ? 'selected' : ''}}>
                                         Andaman and Nicobar Islands</option>
-                                    <option value="Chandigarh" {{ $address->state == 'Chandigarh' ? 'selected' : ''}}>
+                                    <option value="Chandigarh"
+                                        {{ isset($address) && $address->state == 'Chandigarh' ? 'selected' : ''}}>
                                         Chandigarh</option>
                                     <option value="Dadra and Nagar Haveli"
-                                        {{ $address->state == 'Dadra and Nagar Haveli' ? 'selected' : ''}}>
+                                        {{ isset($address) && $address->state == 'Dadra and Nagar Haveli' ? 'selected' : ''}}>
                                         Dadra and Nagar Haveli</option>
                                     <option value="Daman and Diu"
-                                        {{ $address->state == 'Daman and Diu' ? 'selected' : ''}}>
-                                        Daman
+                                        {{ isset($address) && $address->state == 'Daman and Diu' ? 'selected' : ''}}>Daman
                                         and Diu</option>
-                                    <option value="Delhi" {{ $address->state == 'Delhi' ? 'selected' : ''}}>Delhi
-                                    </option>
-                                    <option value="Lakshadweep" {{ $address->state == 'Lakshadweep' ? 'selected' : ''}}>
+                                    <option value="Delhi"
+                                        {{ isset($address) && $address->state == 'Delhi' ? 'selected' : ''}}>Delhi</option>
+                                    <option value="Lakshadweep"
+                                        {{ isset($address) && $address->state == 'Lakshadweep' ? 'selected' : ''}}>
                                         Lakshadweep</option>
-                                    <option value="Puducherry" {{ $address->state == 'Puducherry' ? 'selected' : ''}}>
+                                    <option value="Puducherry"
+                                        {{ isset($address) && $address->state == 'Puducherry' ? 'selected' : ''}}>
                                         Puducherry</option>
                                 </select>
                             </div>
@@ -178,15 +207,24 @@
                                 @foreach ($cartItems as $item)
                                 <li><a href="#">{{ $item->title }}
                                         <span class="middle">x {{ $item->qty }}</span>
-                                        <span class="last">${{ number_format($item->new_price * $item->qty, 2) }}</span>
+                                        <span class="last">₹{{ number_format($item->new_price * $item->qty, 2) }}</span>
                                     </a></li>
                                 @php $subtotal += $item->new_price * $item->qty; @endphp
                                 @endforeach
+                                @php
+                                $discount = session('discount') ?? 0;
+                                $shipping = 0;
+                                $total = $subtotal - $discount + $shipping;
+                                @endphp
                             </ul>
                             <ul class="list list_2">
-                                <li><a href="#">Subtotal <span>${{ number_format($subtotal, 2) }}</span></a></li>
-                                <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-                                <li><a href="#">Total <span>${{ number_format($subtotal + 50, 2) }}</span></a></li>
+                                <li><a href="#">Subtotal <span>₹{{ number_format($subtotal, 2) }}</span></a></li>
+                                <li><a href="javascript:void(0)">Discount: <span
+                                            id="discount-amount">₹{{ number_format($discount, 2) }}</span></a></li>
+                                <li><a href="#">Shipping <span>Flat rate: ₹{{ number_format($shipping, 2) }}</span></a>
+                                </li>
+                                <li><a href="#">Total <span id="total-amount">₹{{ number_format($total, 2) }}</span></a>
+                                </li>
                             </ul>
                             <div class="creat_account">
                                 <input type="checkbox" id="f-option4" name="selector">
@@ -210,7 +248,9 @@
 
 <script>
 document.getElementById('rzp-button1').addEventListener('click', function() {
-    var amount = {{ $subtotal + 50 }};
+    var amount = {{
+            $subtotal + 50
+        }};
 
 
     // Save Order Before Initiating Payment
@@ -266,11 +306,16 @@ document.getElementById('rzp-button1').addEventListener('click', function() {
                                         "Payment recorded in DB, redirecting..."
                                     );
                                     // console.log("Server Response:",data);
-                                    window.location.href = "{{ route('order.success') }}";
+                                    window.location.href =
+                                        "{{ route('order.success') }}";
                                 },
                                 error: function(xhr) {
-                                    console.error("Payment update failed:",xhr.responseText);
-                                    alert("Payment verification failed. Please contact support.");
+                                    console.error(
+                                        "Payment update failed:",
+                                        xhr.responseText);
+                                    alert(
+                                        "Payment verification failed. Please contact support."
+                                    );
                                 }
                             });
                         },
@@ -299,7 +344,47 @@ document.getElementById('rzp-button1').addEventListener('click', function() {
         }
     });
 });
+
+$('#applyCouponBtn').on('click', function() {
+    let code = $('#coupon_code').val();
+
+    $.ajax({
+        url: "{{ route('applycoupon') }}",
+        method: "POST",
+        data: {
+            _token: "{{ csrf_token() }}",
+            coupon_code: code
+        },
+        success: function(response) {
+            if (response.success) {
+                notyf.success(response.message)
+                location.reload();
+            } else {
+                notyf.error(response.message);
+            }
+        }
+    });
+})
+
+function removeCouponBtn(){
+    $.ajax({
+        url: "{{ route('removeCoupon') }}",
+        method: "POST",
+        data: {
+            _token: "{{ csrf_token() }}",
+        },
+        success: function (response) {
+            if (response.success) {
+                notyf.success(response.message);
+                location.reload(); 
+            }
+        },
+        error: function () {
+            notyf.error("Something went wrong while removing the coupon.");
+        }
+    });
+}
+
 </script>
 @endsection
 
-<!--  -->

@@ -24,6 +24,11 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category', 'id'); 
     }
 
+    public function firstImage()
+{
+    return $this->hasOne(ProductImage::class)->oldestOfMany();
+}
+
     // public function orderItems()
     // {
     //     return $this->hasMany(OrderItems::class, 'product_id', 'id');

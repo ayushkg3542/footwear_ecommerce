@@ -14,6 +14,7 @@
 15. In Stock/Out of Stock
 16. Product Size 
 17. Manage CMS
+18. Shipping Charges -- id, name, price, status
 
 
 

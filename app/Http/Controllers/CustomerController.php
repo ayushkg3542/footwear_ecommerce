@@ -16,12 +16,10 @@ class CustomerController extends Controller
         $customerList = User::where('role',3)->count();
         $newCustomerCount = User::whereDate('created_at', today())->count();
         $query = User::where('role', 3)
-        ->withCount('orders') 
-        ->withSum('orders', 'total_amount') 
-        ->with(['orders' => function ($query) {
-            $query->latest()->limit(1); 
-        }]);
-
+        ->withCount('orders')
+        ->withSum('orders', 'total_amount')
+        ->with('latestOrder');
+    
         if($request->has('search')){
             $search = $request->search;
             $query->where(function($q) use ($search){
@@ -31,9 +29,12 @@ class CustomerController extends Controller
         }
 
         $customers = $query->get();        
+        // dd($customers);
+        // die();
 
         foreach ($customers as $customer) {
-            $latestOrder = $customer->orders->first(); // Get latest order
+            $latestOrder = $customer->latestOrder;
+        
             if ($latestOrder && $latestOrder->address) {
                 $address = json_decode($latestOrder->address, true);
                 $customer->state = $address['state'] ?? 'N/A';
@@ -43,11 +44,11 @@ class CustomerController extends Controller
                 $customer->state = 'N/A';
                 $customer->country = 'N/A';
                 $customer->last_order_date = 'N/A';
-
             }
+        
             $customer->last_seen = $customer->updated_at ? $customer->updated_at->diffForHumans() : 'N/A';
-
         }
+        
 
         if($request->ajax()){
             return response()->json(['customers'=>$customers]);

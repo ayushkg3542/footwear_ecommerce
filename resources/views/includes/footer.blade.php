@@ -93,7 +93,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
 <script src="{{url('public/front/js/vendor/bootstrap.min.js')}}"></script>
 <script src="{{url('public/front/js/jquery.ajaxchimp.min.js')}}"></script>
 <script src="{{url('public/front/js/jquery.nice-select.min.js')}}"></script>

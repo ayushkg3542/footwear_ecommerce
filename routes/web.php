@@ -82,6 +82,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/getColor', [MasterController::class, 'getColor'])->name('getColor');
         Route::post('/modifyColor', [MasterController::class, 'modifyColor'])->name('modifyColor');
 
+        // DELETE FUNCTION ROUTE
+
         Route::post('/delete-entity', [MasterController::class, 'deleteEntity'])->name('deleteEntity');
 
 
@@ -121,19 +123,32 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/editProduct/{id}',[ProductController::class, 'editProduct'])->name('editProduct');
         Route::post('/modifyProduct/{id}', [ProductController::class, 'modifyProduct'])->name('modifyProduct');
 
+        // ============== ADD COUPON DETAILS ==============
+
         Route::get('/couponList',[CouponController::class, 'couponList'])->name('couponList');
         Route::get('/manageCoupon/{id}',[CouponController::class, 'manageCoupon'])->name('manageCoupon');
         Route::post('/storeCoupon', [CouponController::class, 'storeCoupon'])->name('storeCoupon');
         Route::post('/updateDiscount/{id}', [CouponController::class, 'storeCoupon'])->name('updateDiscount');
 
         Route::get('/orderList',[OrderDetailsController::class, 'orderList'])->name('orderList');
-        Route::get('/orderDetails',[OrderDetailsController::class, 'orderDetails'])->name('order.details');
+        Route::get('/orderDetails/{order}',[OrderDetailsController::class, 'orderDetails'])->name('order.details');
+        Route::post('/update-order-status', [OrderDetailsController::class, 'updateOrderStatus'])->name('updateOrderStatus');
+
 
         Route::get('/customers',[CustomerController::class, 'customers'])->name('customers');
 
+        // ============== CMS MANAGE ==============
         Route::get('/cmspage',[MasterController::class, 'cmspage'])->name('cmspage');
-        Route::get('/managecms',[MasterController::class, 'managecms'])->name('managecms');
+        Route::get('/managecms/{id?}',[MasterController::class, 'managecms'])->name('managecms');
+        Route::post('/storecms',[MasterController::class, 'storecms'])->name('storecms');
+        Route::post('/updatecms/{id}', [MasterController::class, 'storecms'])->name('updatecms');
 
+
+        // ============== ADD SHIPPING CHARGE==============
+        Route::get('/shipping_charge', [MasterController::class, 'shippingCharge'])->name('shipping_charge');
+        Route::post('/storeShippingCharge', [MasterController::class, 'storeShippingCharge'])->name('storeShippingCharge');
+        Route::post('/getShippingCharge', [MasterController::class, 'getShippingCharge'])->name('getShippingCharge');
+        Route::post('/modifyShippingCharge', [MasterController::class, 'modifyShippingCharge'])->name('modifyShippingCharge');
 
     });
 });
@@ -143,7 +158,10 @@ Route::get('/account/login',[UserAuthController::class,'getLogin'])->name('accou
 Route::post('/account/login', [UserAuthController::class, 'authenticate'])->name('account.authenticate');
 Route::get('/account/register',[UserAuthController::class,'getRegister'])->name('account.register');
 Route::get('/account/dashboard',[UserAuthController::class, 'dashboard'])->name('account.dashboard');
+Route::get('/account/forgetPassword',[UserAuthController::class, 'forgetPassword'])->name('account.forgetPassword');
 Route::post('/account/processSignup', [UserAuthController::class, 'processSignUp'])->name('account.processSignup');
+Route::get('/verify-email/{token}', [UserAuthController::class, 'verifyEmail'])->name('verify.email');
+
 Route::get('/logout', [UserAuthController::class, 'logout'])->name('account.logout');
 
 
@@ -197,3 +215,5 @@ Route::get('/order-failed', function () {
 
 
 Route::get('/order-details/{order}', [OrderController::class, 'orderDetails'])->name('orderDetails');
+Route::post('/apply-coupon', [CartController::class, 'applyCoupon'])->name('applycoupon');
+Route::post('/remove-coupon', [CartController::class, 'removeCoupon'])->name('removeCoupon');

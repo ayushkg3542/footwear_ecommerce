@@ -16,17 +16,11 @@
             <!--navigation-->
             <ul class="metismenu" id="sidenav">
                 <li>
-                    <a href="javascript:;" class="has-arrow">
+                    <a href="{{ route('dashboard') }}">
                         <div class="parent-icon"><i class="material-icons-outlined">home</i>
                         </div>
                         <div class="menu-title">Dashboard</div>
                     </a>
-                    <ul>
-                        <li><a href="index.html"><i class="material-icons-outlined">arrow_right</i>eCommerce</a>
-                        </li>
-                        <li><a href="index2.html"><i class="material-icons-outlined">arrow_right</i>Alternate</a>
-                        </li>
-                    </ul>
                 </li>
                 <li>
                     <a href="javascript:;" class="has-arrow">
@@ -56,18 +50,12 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:;" class="has-arrow">
+                    <a href="{{route('orderList')}}">
                         <div class="parent-icon"><i class="material-icons-outlined">shopping_bag</i>
                         </div>
                         <div class="menu-title">Orders</div>
                     </a>
-                    <ul>
-                        <li><a href="{{route('orderList')}}"><i
-                                    class="material-icons-outlined">arrow_right</i>Order Lists</a>
-                        </li>
-                        <li><a href="{{route('order.details')}}"><i class="material-icons-outlined">arrow_right</i>Order Details</a>
-                        </li>
-                    </ul>
+                    
                 </li>
 
                 <li>
@@ -88,6 +76,13 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="{{ route('shipping_charge') }}">
+                        <div class="parent-icon"><i class="material-icons-outlined">person</i>
+                        </div>
+                        <div class="menu-title">Manage Shipping Charge</div>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('cmspage') }}">
                         <div class="parent-icon"><i class="material-icons-outlined">person</i>
                         </div>
@@ -99,7 +94,7 @@
                     <a href="{{ route('customers') }}">
                         <div class="parent-icon"><i class="material-icons-outlined">person</i>
                         </div>
-                        <div class="menu-title">Customres</div>
+                        <div class="menu-title">Customers</div>
                     </a>
                 </li>
                 <!-- <li>

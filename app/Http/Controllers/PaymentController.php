@@ -10,6 +10,7 @@ use App\Models\Payment;
 use Auth;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
+use Illuminate\Support\Facades\Mail;
 use Session;
 
 class PaymentController extends Controller
@@ -39,14 +40,22 @@ class PaymentController extends Controller
     
                 $cartItems = Cart::where('user_id', $userId)->with('product')->get();
     
+                $couponCode = session('applied_coupon');
+                $discountAmount = session('discount', 0);
+
+                $coupon = null;
+                if($couponCode){
+                    $coupon = \App\Models\DiscountCoupon::where('coupon_code', $couponCode)->first();
+                }
+
                 // Store Order details
                 $order = new Orders();
                 $order->user_id = $userId;
                 $order->total_amount = $payment->amount / 100;
                 $order->shipping = 0; 
-                $order->coupon_id = null;
-                $order->coupon_code = null;
-                $order->discount = 0; 
+                $order->coupon_id = $coupon ? $coupon->id : null;
+                $order->coupon_code = $couponCode ?? null;
+                $order->discount = $discountAmount; 
                 $order->grand_total = $payment->amount / 100;
                 $order->payment_method = 'prepaid';
                 $order->payment_status = 'paid'; 
@@ -61,9 +70,11 @@ class PaymentController extends Controller
                 $order->phone = $user->phone;
                 $order->country = 'India';
                 $order->address = $user->address;
-                $order->city = $user->city;
-                $order->state = $user->state;
-                $order->pincode = $user->pincode;
+                // $order->city = $user->city;
+                // $order->state = $user->state;
+                // $order->pincode = $user->pincode;
+                // dd($order);
+                // die();
                 $order->save();
     
                 // Store Order Items
@@ -95,9 +106,12 @@ class PaymentController extends Controller
     
                 // Clear Cart
                 Cart::where('user_id', $userId)->delete();
-                session()->forget('cart_count');
+                session()->forget('cart_count','applied_coupon','discount');
     
                 // Return JSON response instead of redirecting
+                Mail::to($user->email)->send(new \App\Mail\OrderInvoiceMail($order));
+                // die();
+
                 return response()->json([
                     'message' => 'Payment recorded successfully!',
                     'order' => $order,
