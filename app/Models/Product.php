@@ -25,9 +25,14 @@ class Product extends Model
     }
 
     public function firstImage()
-{
-    return $this->hasOne(ProductImage::class)->oldestOfMany();
-}
+    {
+        return $this->hasOne(ProductImage::class)->oldestOfMany();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class)->latest();
+    }
 
     // public function orderItems()
     // {

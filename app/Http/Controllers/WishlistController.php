@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiscountCoupon;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class WishlistController extends Controller
         $userId = auth()->id();
 
         $wishlistItems = Wishlist::where('user_id',$userId)->with('product')->get();
-        return view('wishlist', compact('wishlistItems'));
+        $deals = DiscountCoupon::where('deal_of_week', 1)->with('product.firstImage')->get();
+
+        return view('wishlist', compact('wishlistItems','deals'));
     }
 
     public function addToWishlist(Request $request){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Mail\OrderStatusMail;
 use App\Models\Orders;
+use App\Models\Review;
 use Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -102,4 +103,7 @@ class OrderDetailsController extends Controller
 
         return response()->json(['message'=>'Order status updated successfully']);
     }
+
+
+
 }

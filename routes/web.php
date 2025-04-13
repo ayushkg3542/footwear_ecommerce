@@ -217,3 +217,6 @@ Route::get('/order-failed', function () {
 Route::get('/order-details/{order}', [OrderController::class, 'orderDetails'])->name('orderDetails');
 Route::post('/apply-coupon', [CartController::class, 'applyCoupon'])->name('applycoupon');
 Route::post('/remove-coupon', [CartController::class, 'removeCoupon'])->name('removeCoupon');
+
+
+Route::post('/store-review', [OrderController::class, 'storeReview'])->name('store-review');

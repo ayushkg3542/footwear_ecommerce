@@ -99,6 +99,10 @@
 .order-tracking.completed:before {
     background-color: #27aa80;
 }
+
+.media-body i {
+    font-size: 18px;
+}
 </style>
 
 
@@ -116,7 +120,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card border-0" style="box-shadow: 0px 0px 2px 2px #e3e3e3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-10">
@@ -128,25 +132,33 @@
 
                                 <div class="col-12 col-md-10 hh-grayBox pt45 pb20">
                                     <div class="d-flex">
-                                    <div class="order-tracking {{ in_array($order->status, ['pending', 'shipped', 'delivered']) ? 'completed' : '' }}">
-            <span class="is-complete"></span>
-            <p>Pending<br><span>{{ \Carbon\Carbon::parse($order->created_at)->format('D, M d') }}</span></p>
-        </div>
+                                        <div
+                                            class="order-tracking {{ in_array($order->status, ['pending', 'shipped', 'delivered']) ? 'completed' : '' }}">
+                                            <span class="is-complete"></span>
+                                            <p>Pending<br><span>{{ \Carbon\Carbon::parse($order->created_at)->format('D, M d') }}</span>
+                                            </p>
+                                        </div>
 
-        <div class="order-tracking {{ in_array($order->status, ['shipped', 'delivered']) ? 'completed' : '' }}">
-            <span class="is-complete"></span>
-            <p>Shipped<br><span>{{ $order->shipped_date ? \Carbon\Carbon::parse($order->shipped_at)->format('D, M d') : '-' }}</span></p>
-        </div>
+                                        <div
+                                            class="order-tracking {{ in_array($order->status, ['shipped', 'delivered']) ? 'completed' : '' }}">
+                                            <span class="is-complete"></span>
+                                            <p>Shipped<br><span>{{ $order->shipped_date ? \Carbon\Carbon::parse($order->shipped_at)->format('D, M d') : '-' }}</span>
+                                            </p>
+                                        </div>
 
-        <div class="order-tracking {{ $order->status == 'delivered' ? 'completed' : '' }}">
-            <span class="is-complete"></span>
-            <p>Delivered<br><span>{{ $order->delivery_date ? \Carbon\Carbon::parse($order->delivered_at)->format('D, M d') : '-' }}</span></p>
-        </div>
+                                        <div
+                                            class="order-tracking {{ $order->status == 'delivered' ? 'completed' : '' }}">
+                                            <span class="is-complete"></span>
+                                            <p>Delivered<br><span>{{ $order->delivery_date ? \Carbon\Carbon::parse($order->delivered_at)->format('D, M d') : '-' }}</span>
+                                            </p>
+                                        </div>
 
-        <div class="order-tracking {{ $order->status == 'cancelled' ? 'completed' : '' }}">
-            <span class="is-complete"></span>
-            <p>Cancelled<br><span>{{ $order->cancelled_date ? \Carbon\Carbon::parse($order->cancelled_at)->format('D, M d') : '-' }}</span></p>
-        </div>
+                                        <div
+                                            class="order-tracking {{ $order->status == 'cancelled' ? 'completed' : '' }}">
+                                            <span class="is-complete"></span>
+                                            <p>Cancelled<br><span>{{ $order->cancelled_date ? \Carbon\Carbon::parse($order->cancelled_at)->format('D, M d') : '-' }}</span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -159,31 +171,107 @@
                 </div>
             </div>
             <div class="col-md-4">
+                <div class="card border-0" style="box-shadow: 0px 0px 2px 2px #e3e3e3">
+                    @foreach ($order->orderItems as $item)
+                    <div class="card-body">
+                        @php
+                        $existingReview = $existingReviews[$item->product->id] ?? null;
+                        @endphp
 
+                        @if ($existingReview)
+                        <h4><b>Your Review</b></h4>
+                        <div class="media-body">
+                            <h5>Rated:</h5>
+                            @for ($i = 1; $i <= 5; $i++) <i
+                                class="fa fa-star {{ $i <= $existingReview->rating ? 'text-warning' : '' }}"></i>
+                                @endfor
+                        </div>
+                        <p><b>Review:</b> {{ $existingReview->review ?? 'No comment provided.' }}</p>
+                        @else
+                        {{-- Show form if no review exists --}}
+                        <form action="javascript:void(0)" class="contact_form ratingForm"
+                            data-order-id="{{ $order->id }}" data-product-id="{{ $item->product->id }}">
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <h4><b>Rate this Product</b></h4>
+                                    <div class="media-body rating" data-rating="0">
+                                        <h5>Your star out of 5!</h5>
+                                        @for ($i = 1; $i <= 5; $i++) <i class="fa fa-star" data-value="{{ $i }}"></i>
+                                            @endfor
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control review-text" rows="1"
+                                            placeholder="Review"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <button type="submit" class="primary-btn">Submit Now</button>
+                                </div>
+                            </div>
+                        </form>
+                        @endif
+                    </div>
+                    @endforeach
+
+                </div>
             </div>
         </div>
     </div>
 
 </section>
 
-<!-- -->
+@endsection
 
-<!-- <div class="card">
-    <div class="card-body">
-        <p><strong>Order ID:</strong> #{{ $order->id }}</p>
-        <p><strong>Total Amount:</strong> ₹{{ number_format($order->total_amount, 2) }}</p>
-        <p><strong>Payment Status:</strong> <span class="badge bg-success">{{ ucfirst($order->status) }}</span></p>
-        <h4>Products:</h4>
-        <ul>
-            @foreach($order->orderItems as $item)
-            <li>
-                <img src="{{ url('public/product_images/' . $item->product->images->first()->images ?? 'default.png') }}"
-                    style="height: 50px;" alt="{{ $item->product->title }}">
-                {{ $item->product->title }} - ₹{{ number_format($item->price, 2) }} x {{ $item->quantity }}
-            </li>
-            @endforeach
-        </ul>
-    </div>
-</div> -->
+@section('customJS')
+<script>
+$(document).ready(function() {
+    $('.rating .fa-star').on('click', function() {
+        let selectedValue = $(this).data('value');
+        $('.rating').attr('data-rating', selectedValue);
+        $('.rating .fa-star').removeClass('text-warning');
+        $('.rating .fa-star').each(function() {
+            if ($(this).data('value') <= selectedValue) {
+                $(this).addClass('text-warning');
+            }
+        })
+    });
+    $('#ratingForm').on('submit', function(e) {
+        e.preventDefault();
 
-<!--  -->
+        let rating = $('.rating').attr('data-rating');
+        let review = $('#review').val();
+        let orderId = $(this).data('order-id');
+        let productId = $(this).data('product-id');
+
+        $.ajax({
+            url: "{{route('store-review')}}",
+            type: 'POST',
+            data: {
+                rating: rating,
+                review: review,
+                order_id: orderId,
+                product_id: productId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.status == 'success') {
+                    notyf.success(response.message);
+                    $('#review').val('');
+                    $('.fa-star').removeClass('text-warning');
+                    $('.rating').attr('data-rating', 0);
+                } else {
+                    notyf.fail(response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Something went wrong!');
+            }
+        });
+    });
+
+})
+</script>
+
+@endsection

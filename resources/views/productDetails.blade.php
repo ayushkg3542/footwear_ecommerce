@@ -61,8 +61,9 @@
                         <h2>₹{{ $product->new_price }}</h2>&nbsp;<p><del>₹{{ $product->old_price }}</del></p>
                     </div>
                     <ul class="list">
-                    <li><a class="active" href="#"><span>Category</span> : {{ $product->categoryName->category ?? 'Uncategorized' }}</a></li>
-                    <li><a href="#"><span>Availability</span> :
+                        <li><a class="active" href="#"><span>Category</span> :
+                                {{ $product->categoryName->category ?? 'Uncategorized' }}</a></li>
+                        <li><a href="#"><span>Availability</span> :
                                 @if($product->quantity > 1)
                                 <span style="color: green;">In Stock</span>
                                 @else
@@ -84,9 +85,10 @@
                             class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                     </div>
                     <div class="card_area d-flex align-items-center">
-                        <a class="primary-btn add-to-cart" href="javascript:void(0)" data-id="{{ $product->id }}">Add to Cart</a>
-                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                        <a class="icon_btn add-to-wishlist" href="javascript:void(0)"><i class="lnr lnr lnr-heart"></i></a>
+                        <a class="primary-btn add-to-cart" href="javascript:void(0)" data-id="{{ $product->id }}">Add to
+                            Cart</a>
+                        <a class="icon_btn add-to-wishlist" href="javascript:void(0)"><i
+                                class="lnr lnr lnr-heart"></i></a>
                     </div>
                 </div>
             </div>
@@ -100,17 +102,17 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description"
-                    aria-selected="true">Description</a>
+                <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab"
+                    aria-controls="description" aria-selected="true">Description</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="shipping-tab" data-toggle="tab" href="#shipping" role="tab"
                     aria-controls="shipping" aria-selected="false">Shipping & Returns</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
                     aria-controls="contact" aria-selected="false">Comments</a>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab"
                     aria-controls="review" aria-selected="false">Reviews</a>
@@ -123,7 +125,7 @@
             <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
                 <p>{!! htmlspecialchars_decode($product->shipping_returns) !!}</p>
             </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="comment_list">
@@ -217,7 +219,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
                 <div class="row">
                     <div class="col-lg-6">
@@ -252,116 +254,27 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="review_list">
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/product/review-1.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                    laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/product/review-2.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                    laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/product/review-3.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                    laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="review_box">
-                            <h4>Add a Review</h4>
-                            <p>Your Rating:</p>
-                            <ul class="list">
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                            </ul>
-                            <p>Outstanding</p>
-                            <form class="row contact_form"
-                                action="https://preview.colorlib.com/theme/karma/contact_process.php" method="post"
-                                id="contactForm" novalidate="novalidate">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            placeholder="Your Full name" onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Your Full name'">
+                        <div class="review_list">
+                            @forelse ($product->reviews as $review)
+                            <div class="review_item">
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="{{url('public/front/img/product/review-1.png')}}" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>{{ $review->user->name ?? 'Anonymous' }}</h4>
+                                        @for ($i = 1; $i <= 5; $i++) <i
+                                            class="fa fa-star {{ $i <= $review->rating ? 'text-warning' : '' }}"></i>
+                                            @endfor
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Email Address" onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Email Address'">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="number" name="number"
-                                            placeholder="Phone Number" onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Phone Number'">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" name="message" id="message" rows="1"
-                                            placeholder="Review" onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Review'"></textarea></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <button type="submit" value="submit" class="primary-btn">Submit Now</button>
-                                </div>
-                            </form>
+                                <p>{{ $review->review }}</p>
+                            </div>
+                            @empty
+                            <p>No reviews yet for this product.</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>

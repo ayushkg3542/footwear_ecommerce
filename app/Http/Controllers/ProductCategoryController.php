@@ -39,7 +39,7 @@ class ProductCategoryController extends Controller
     {
         try {
             $product = Product::where('slug', $slug)
-                ->with(['images', 'categoryName']) // Fetch category relation
+                ->with(['images', 'categoryName','reviews.user']) // Fetch category relation
                 ->firstOrFail();
                 $deals = DiscountCoupon::where('deal_of_week', 1)->with('product.firstImage')->get();
             return view('productDetails', compact('product','deals'));
